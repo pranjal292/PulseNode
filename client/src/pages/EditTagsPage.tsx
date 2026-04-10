@@ -5,7 +5,7 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { UserCog, ChevronDown, CheckCircle2, ShieldAlert } from "lucide-react";
+import { UserGear, CaretDown, CheckCircle, ShieldWarning } from "@phosphor-icons/react";
 import { useAuth } from "../context/AuthContext";
 import { UserTag, type User } from "../types";
 
@@ -13,7 +13,7 @@ const TAG_OPTIONS = [
   { value: UserTag.STUDENT, label: "Student", color: "text-emerald-400" },
   { value: UserTag.CLUB_MEMBER, label: "Club Member", color: "text-sky-400" },
   { value: UserTag.COORDINATOR, label: "Coordinator", color: "text-amber-400" },
-  { value: UserTag.PRESIDENT, label: "President", color: "text-purple-400" },
+  { value: UserTag.PRESIDENT, label: "President", color: "text-blue-400" },
   { value: UserTag.FACULTY, label: "Faculty", color: "text-rose-400" },
 ];
 
@@ -102,11 +102,11 @@ export default function EditTagsPage() {
       >
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500/20 to-orange-500/20 flex items-center justify-center">
-            <UserCog size={20} className="text-amber-400" />
+            <UserGear size={20} className="text-amber-400" />
           </div>
           <div>
             <h1 className="text-2xl font-bold text-white">Edit Tags</h1>
-            <p className="text-sm text-surface-200/40">Update user roles</p>
+            <p className="text-sm text-slate-500">Update user roles</p>
           </div>
         </div>
       </motion.header>
@@ -119,7 +119,7 @@ export default function EditTagsPage() {
       >
         {/* Info */}
         <div className="flex items-start gap-3 px-4 py-3 rounded-xl bg-amber-500/8 border border-amber-500/15">
-          <ShieldAlert size={16} className="text-amber-400 mt-0.5 flex-shrink-0" />
+          <ShieldWarning size={16} className="text-amber-400 mt-0.5 flex-shrink-0" />
           <p className="text-xs text-amber-400/80 leading-relaxed">
             You can only modify users ranked below you and assign tags below your own level.
             All changes are logged in the audit trail.
@@ -128,7 +128,7 @@ export default function EditTagsPage() {
 
         {/* Select User */}
         <div>
-          <label className="block text-xs font-medium text-surface-200/50 mb-1.5 uppercase tracking-wider">
+          <label className="block text-xs font-medium text-slate-500 mb-1.5 uppercase tracking-wider">
             Select User
           </label>
           <div className="relative">
@@ -139,7 +139,7 @@ export default function EditTagsPage() {
                 setNewTag("");
                 setError(null);
               }}
-              className="w-full px-4 py-3 rounded-xl bg-surface-900/50 border border-surface-200/10 text-white text-sm focus:outline-none focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/30 transition-all cursor-pointer appearance-none"
+              className="w-full px-4 py-3 rounded-xl bg-white/60 border border-slate-200/50 text-slate-800 text-sm focus:outline-none focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/30 transition-all cursor-pointer appearance-none"
             >
               <option value="">Choose a user...</option>
               {editableUsers.map((u) => (
@@ -148,7 +148,7 @@ export default function EditTagsPage() {
                 </option>
               ))}
             </select>
-            <ChevronDown size={14} className="absolute right-3 top-1/2 -translate-y-1/2 text-surface-200/30 pointer-events-none" />
+            <CaretDown size={14} className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
           </div>
         </div>
 
@@ -162,12 +162,12 @@ export default function EditTagsPage() {
               className="overflow-hidden"
             >
               <div className="flex items-center gap-3 p-4 rounded-xl bg-surface-900/40 border border-surface-200/8">
-                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-500/30 to-purple-500/30 flex items-center justify-center text-white font-semibold text-sm">
+                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-sky-500/30 to-blue-500/30 flex items-center justify-center text-white font-semibold text-sm">
                   {selectedUser.name.charAt(0)}
                 </div>
                 <div>
-                  <p className="text-sm font-semibold text-white">{selectedUser.name}</p>
-                  <p className="text-xs text-surface-200/40">
+                  <p className="text-sm font-semibold text-slate-800">{selectedUser.name}</p>
+                  <p className="text-xs text-slate-500">
                     Current tag:{" "}
                     <span className={TAG_OPTIONS.find((t) => t.value === selectedUser.tag)?.color}>
                       {selectedUser.tag}
@@ -182,7 +182,7 @@ export default function EditTagsPage() {
         {/* New Tag */}
         {selectedUser && (
           <div>
-            <label className="block text-xs font-medium text-surface-200/50 mb-1.5 uppercase tracking-wider">
+            <label className="block text-xs font-medium text-slate-500 mb-1.5 uppercase tracking-wider">
               New Tag
             </label>
             <div className="flex flex-wrap gap-2">
@@ -199,10 +199,10 @@ export default function EditTagsPage() {
                       px-4 py-2 rounded-xl text-sm font-medium
                       border transition-all cursor-pointer
                       ${isCurrent
-                        ? "opacity-30 cursor-not-allowed border-surface-200/10 text-surface-200/40"
+                        ? "opacity-30 cursor-not-allowed border-slate-200/50 text-slate-500"
                         : isSelected
-                          ? `bg-surface-900/60 border-amber-500/40 ${t.color}`
-                          : "bg-surface-900/30 border-surface-200/10 text-surface-200/50 hover:border-amber-500/20"
+                          ? `bg-slate-100/80 border-amber-500/40 ${t.color}`
+                          : "bg-surface-900/30 border-slate-200/50 text-slate-500 hover:border-amber-500/20"
                       }
                     `}
                   >
@@ -225,15 +225,15 @@ export default function EditTagsPage() {
               className="overflow-hidden"
             >
               <div className="pt-2 space-y-3">
-                <label className="block text-xs font-medium text-surface-200/50 uppercase tracking-wider">
+                <label className="block text-xs font-medium text-slate-500 uppercase tracking-wider">
                   Assign to Clubs (Required)
                 </label>
                 <div className="flex flex-col gap-2">
                   {allClubs.length === 0 ? (
-                    <p className="text-sm text-surface-200/40 italic">No clubs are currently registered in the database.</p>
+                    <p className="text-sm text-slate-500 italic">No clubs are currently registered in the database.</p>
                   ) : (
                     allClubs.map(club => (
-                      <label key={club.id} className="flex items-center gap-3 text-sm text-surface-200/80 p-3 rounded-xl bg-surface-900/30 border border-surface-200/10 cursor-pointer hover:border-amber-500/30 transition-all select-none">
+                      <label key={club.id} className="flex items-center gap-3 text-sm text-slate-600 p-3 rounded-xl bg-surface-900/30 border border-slate-200/50 cursor-pointer hover:border-amber-500/30 transition-all select-none">
                         <input
                           type="checkbox"
                           checked={selectedClubIds.includes(club.id)}
@@ -244,7 +244,7 @@ export default function EditTagsPage() {
                               setSelectedClubIds(selectedClubIds.filter(id => id !== club.id));
                             }
                           }}
-                          className="w-4 h-4 accent-amber-500 rounded border-surface-200/20 bg-surface-900/50 cursor-pointer"
+                          className="w-4 h-4 accent-amber-500 rounded border-slate-300/50 bg-white/60 cursor-pointer"
                         />
                         {club.name}
                       </label>
@@ -275,7 +275,7 @@ export default function EditTagsPage() {
               exit={{ opacity: 0 }}
               className="flex items-center justify-center gap-2 py-3 rounded-xl bg-emerald-500/15 border border-emerald-500/25 text-emerald-400 font-semibold text-sm"
             >
-              <CheckCircle2 size={18} />
+              <CheckCircle size={18} />
               {success}
             </motion.div>
           )}
@@ -300,7 +300,7 @@ export default function EditTagsPage() {
               cursor-pointer
             "
           >
-            <UserCog size={16} />
+            <UserGear size={16} />
             Update Tag
           </motion.button>
         )}

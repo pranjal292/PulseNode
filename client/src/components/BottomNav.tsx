@@ -6,21 +6,13 @@
 import { useMemo, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import {
-  Newspaper,
-  Users,
-  Megaphone,
-  CalendarPlus,
-  UserCog,
-  FolderOpen,
-  type LucideIcon,
-} from "lucide-react";
+import { Newspaper, Users, Megaphone, CalendarPlus, UserGear, FolderOpen, type Icon } from "@phosphor-icons/react";
 import { UserTag } from "../types";
 
 interface NavItem {
   id: string;
   label: string;
-  icon: LucideIcon;
+  icon: Icon;
   path: string;
 }
 
@@ -29,7 +21,7 @@ const ALL_ITEMS: Record<string, NavItem> = {
   clubs:        { id: "clubs",        label: "Clubs",      icon: Users,        path: "/clubs" },
   announcement: { id: "announcement", label: "Announce",   icon: Megaphone,    path: "/announcement" },
   planEvent:    { id: "planEvent",    label: "Plan Event", icon: CalendarPlus, path: "/plan-event" },
-  editTags:     { id: "editTags",     label: "Edit Tags",  icon: UserCog,      path: "/edit-tags" },
+  editTags:     { id: "editTags",     label: "Edit Tags",  icon: UserGear,     path: "/edit-tags" },
   resources:    { id: "resources",    label: "Resources",  icon: FolderOpen,   path: "/resources" },
 };
 
@@ -108,8 +100,8 @@ export default function BottomNav({ userTag }: BottomNavProps) {
                   cursor-pointer select-none
                   outline-none focus-visible:ring-2 focus-visible:ring-accent/50
                   ${isActive
-                    ? "text-white"
-                    : "text-surface-200/50 hover:text-surface-200/80"
+                    ? "text-slate-800"
+                    : "text-slate-500 hover:text-slate-600"
                   }
                 `}
                 aria-label={item.label}
@@ -121,8 +113,8 @@ export default function BottomNav({ userTag }: BottomNavProps) {
                     layoutId="nav-active"
                     className="
                       absolute inset-0 rounded-full
-                      bg-gradient-to-r from-indigo-600/80 to-purple-600/70
-                      shadow-[0_0_20px_rgba(99,102,241,0.3)]
+                      bg-gradient-to-r from-sky-500/80 to-blue-600/70
+                      shadow-[0_0_20px_rgba(56,189,248,0.3)]
                     "
                     transition={{
                       type: "spring",

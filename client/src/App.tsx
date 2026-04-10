@@ -19,7 +19,7 @@ function AppShell() {
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="w-10 h-10 border-2 border-indigo-500/30 border-t-indigo-500 rounded-full animate-spin" />
+        <div className="w-10 h-10 border-2 border-sky-500/30 border-t-sky-500 rounded-full animate-spin" />
       </div>
     );
   }
@@ -30,28 +30,17 @@ function AppShell() {
 
   return (
     <>
-      {/* Ambient background — persistent across pages */}
-      <div className="pointer-events-none fixed inset-0 z-0">
+      {/* Ambient glassmorphic background */}
+      <div className="fixed inset-0 z-0 overflow-hidden bg-slate-50 text-slate-800">
+        <div className="absolute top-[-10%] left-[-10%] w-[40vw] h-[40vw] rounded-full bg-sky-500/15 mix-blend-screen filter blur-[100px] animate-blob" />
+        <div className="absolute top-[20%] right-[-10%] w-[35vw] h-[35vw] rounded-full bg-blue-300/10 mix-blend-screen filter blur-[90px] animate-blob animation-delay-2000" />
+        <div className="absolute bottom-[-20%] left-[20%] w-[45vw] h-[45vw] rounded-full bg-slate-300/10 mix-blend-screen filter blur-[120px] animate-blob animation-delay-4000" />
         <div
-          className="absolute -top-40 -left-40 w-[500px] h-[500px] rounded-full opacity-20"
-          style={{
-            background:
-              "radial-gradient(circle, rgba(99,102,241,0.4) 0%, transparent 70%)",
-          }}
-        />
-        <div
-          className="absolute -bottom-40 -right-40 w-[400px] h-[400px] rounded-full opacity-15"
-          style={{
-            background:
-              "radial-gradient(circle, rgba(236,72,153,0.3) 0%, transparent 70%)",
-          }}
-        />
-        <div
-          className="absolute inset-0 opacity-[0.02]"
+          className="absolute inset-0 opacity-[0.03]"
           style={{
             backgroundImage: `
-              linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
-              linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)
+              linear-gradient(rgba(255,255,255,0.15) 1px, transparent 1px),
+              linear-gradient(90deg, rgba(255,255,255,0.15) 1px, transparent 1px)
             `,
             backgroundSize: "64px 64px",
           }}

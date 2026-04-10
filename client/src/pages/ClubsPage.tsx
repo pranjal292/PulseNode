@@ -4,7 +4,7 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Users, ArrowRight } from "lucide-react";
+import { Users, ArrowRight } from "@phosphor-icons/react";
 import { useAuth } from "../context/AuthContext";
 
 const stagger = {
@@ -55,8 +55,8 @@ export default function ClubsPage() {
         animate={{ opacity: 1, y: 0 }}
         className="mb-8"
       >
-        <h1 className="text-2xl font-bold text-white">Clubs</h1>
-        <p className="text-sm text-surface-200/40 mt-1">
+        <h1 className="text-2xl font-bold text-slate-800">Clubs</h1>
+        <p className="text-sm text-slate-500 mt-1">
           Explore campus organizations
         </p>
       </motion.header>
@@ -77,7 +77,7 @@ export default function ClubsPage() {
               variants={fadeUp}
               whileHover={{ scale: 1.01, y: -2 }}
               onClick={() => setExpandedClubId(isExpanded ? null : club.id)}
-              className="glass rounded-2xl p-5 hover:border-indigo-500/15 transition-all cursor-pointer group flex flex-col"
+              className="glass rounded-2xl p-5 hover:border-sky-500/15 transition-all cursor-pointer group flex flex-col"
             >
               <div className="flex items-start gap-4">
                 {/* Emoji Logo */}
@@ -93,7 +93,7 @@ export default function ClubsPage() {
 
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-1">
-                    <h3 className="font-semibold text-white text-[15px] group-hover:text-indigo-300 transition-colors">
+                    <h3 className="font-semibold text-slate-800 text-[15px] group-hover:text-sky-300 transition-colors">
                       {club.name}
                     </h3>
                     {isMember && (
@@ -102,17 +102,17 @@ export default function ClubsPage() {
                       </span>
                     )}
                   </div>
-                  <p className="text-sm text-surface-200/50 line-clamp-2 mb-3">
+                  <p className="text-sm text-slate-500 line-clamp-2 mb-3">
                     {club.description}
                   </p>
                   <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-1.5 text-xs text-surface-200/30">
+                    <div className="flex items-center gap-1.5 text-xs text-slate-400">
                       <Users size={12} />
                       <span>{club.memberCount} members</span>
                     </div>
                     <ArrowRight
                       size={16}
-                      className={`text-surface-200/20 transition-all ${isExpanded ? "rotate-90 text-indigo-400" : "group-hover:text-indigo-400 group-hover:translate-x-1"}`}
+                      className={`text-slate-300 transition-all ${isExpanded ? "rotate-90 text-sky-400" : "group-hover:text-sky-400 group-hover:translate-x-1"}`}
                     />
                   </div>
                 </div>
@@ -127,8 +127,8 @@ export default function ClubsPage() {
                     exit={{ height: 0, opacity: 0 }}
                     className="overflow-hidden"
                   >
-                    <div className="mt-4 pt-4 border-t border-surface-200/10">
-                      <h4 className="text-xs font-semibold text-surface-200/50 uppercase tracking-wider mb-3">
+                    <div className="mt-4 pt-4 border-t border-slate-200/50">
+                      <h4 className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-3">
                         Roster
                       </h4>
                       {club.memberships && club.memberships.length > 0 ? (
@@ -136,17 +136,17 @@ export default function ClubsPage() {
                           {club.memberships.map((m: any) => (
                             <div key={m.id} className="flex items-center justify-between bg-surface-900/30 p-2.5 rounded-xl border border-surface-200/5">
                               <div className="flex flex-col min-w-0 pr-4">
-                                <span className="text-sm font-semibold text-white truncate">{m.name}</span>
-                                <span className="text-xs text-surface-200/40 truncate">{m.email}</span>
+                                <span className="text-sm font-semibold text-slate-800 truncate">{m.name}</span>
+                                <span className="text-xs text-slate-500 truncate">{m.email}</span>
                               </div>
-                              <span className="text-[10px] px-2 py-0.5 rounded-full bg-surface-200/10 text-surface-200/60 font-medium">
+                              <span className="text-[10px] px-2 py-0.5 rounded-full bg-slate-200/50 text-slate-500 font-medium">
                                 {m.tag.replace('_', ' ')}
                               </span>
                             </div>
                           ))}
                         </div>
                       ) : (
-                        <p className="text-sm text-surface-200/40 italic">No members currently registered.</p>
+                        <p className="text-sm text-slate-500 italic">No members currently registered.</p>
                       )}
                     </div>
                   </motion.div>

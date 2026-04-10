@@ -5,18 +5,7 @@
 
 import { useState, useEffect, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import {
-  Package,
-  Mail,
-  CheckCircle2,
-  Building2,
-  AlertTriangle,
-  ShieldCheck,
-  Clock,
-  CalendarDays,
-  Copy,
-  X,
-} from "lucide-react";
+import { Package, Envelope, CheckCircle, Buildings, Warning, ShieldCheck, Clock, Calendar, Copy, X } from "@phosphor-icons/react";
 import { useAuth } from "../context/AuthContext";
 
 // ═══════════════════════════════════════════════════════════════
@@ -264,7 +253,7 @@ export default function ResourcesPage() {
           </div>
           <div>
             <h1 className="text-2xl font-bold text-white">Club Resources</h1>
-            <p className="text-sm text-surface-200/40">Inventory from your clubs</p>
+            <p className="text-sm text-slate-500">Inventory from your clubs</p>
           </div>
         </div>
       </motion.header>
@@ -276,7 +265,7 @@ export default function ResourcesPage() {
           className="text-center py-16"
         >
           <Package size={48} className="mx-auto text-surface-200/15 mb-4" />
-          <p className="text-surface-200/40 text-sm">
+          <p className="text-slate-500 text-sm">
             No clubs yet. Get assigned to a club to view its inventory.
           </p>
         </motion.div>
@@ -298,14 +287,14 @@ export default function ResourcesPage() {
                 {/* Club Header */}
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-2.5">
-                    <Building2 size={16} className="text-sky-400" />
-                    <h2 className="text-lg font-semibold text-white">{club.name}</h2>
-                    <span className="text-xs text-surface-200/30 bg-surface-200/5 px-2 py-0.5 rounded-full">
+                    <Buildings size={16} className="text-sky-400" />
+                    <h2 className="text-lg font-semibold text-slate-800">{club.name}</h2>
+                    <span className="text-xs text-slate-400 bg-slate-100/80 px-2 py-0.5 rounded-full">
                       {clubItems.length} items
                     </span>
                   </div>
                   {coordinator && (
-                    <div className="flex items-center gap-1.5 text-xs text-surface-200/40">
+                    <div className="flex items-center gap-1.5 text-xs text-slate-500">
                       <ShieldCheck size={12} className="text-amber-400" />
                       <span>{coordinator.name}</span>
                     </div>
@@ -350,25 +339,25 @@ export default function ResourcesPage() {
                               canSelect && toggleItem(item.id);
                             }}
                             onClick={(e) => e.stopPropagation()}
-                            className="w-4 h-4 rounded border-surface-200/20 bg-surface-900/50 text-sky-500 focus:ring-sky-500/30 cursor-pointer accent-sky-500"
+                            className="w-4 h-4 rounded border-slate-300/50 bg-white/60 text-sky-500 focus:ring-sky-500/30 cursor-pointer accent-sky-500"
                           />
                           <span className="text-lg">{item.emoji}</span>
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center gap-2">
-                              <span className={`text-sm font-medium ${isChecked ? "text-white" : "text-surface-200/70"}`}>
+                              <span className={`text-sm font-medium ${isChecked ? "text-slate-800" : "text-surface-200/70"}`}>
                                 {item.name}
                               </span>
                               {isRequested && (
-                                <CheckCircle2 size={13} className="text-emerald-400" />
+                                <CheckCircle size={13} className="text-emerald-400" />
                               )}
                               {item.bookings.length > 0 && (
-                                <span className="text-[9px] px-1.5 py-0.5 rounded bg-purple-500/15 text-purple-400 border border-purple-500/20 font-semibold">
+                                <span className="text-[9px] px-1.5 py-0.5 rounded bg-blue-500/15 text-blue-400 border border-blue-500/20 font-semibold">
                                   {item.bookings.length} booking{item.bookings.length > 1 ? "s" : ""}
                                 </span>
                               )}
                             </div>
                           </div>
-                          <span className="text-[10px] px-2 py-0.5 rounded-full bg-surface-200/5 text-surface-200/35 font-medium mr-1">
+                          <span className="text-[10px] px-2 py-0.5 rounded-full bg-slate-100/80 text-slate-400 font-medium mr-1">
                             qty: {item.quantity}
                           </span>
                           <span className={`text-[10px] px-2 py-0.5 rounded-full border font-semibold ${statusCfg.bg} ${statusCfg.color}`}>
@@ -387,12 +376,12 @@ export default function ResourcesPage() {
                               className="overflow-hidden"
                             >
                               <div className="ml-4 mt-1 mb-2 p-3 rounded-xl bg-surface-900/40 border border-surface-200/5">
-                                <p className="text-[10px] font-semibold uppercase tracking-wider text-surface-200/40 mb-2 flex items-center gap-1.5">
-                                  <CalendarDays size={10} />
+                                <p className="text-[10px] font-semibold uppercase tracking-wider text-slate-500 mb-2 flex items-center gap-1.5">
+                                  <Calendar size={10} />
                                   Existing Bookings
                                 </p>
                                 {item.bookings.length === 0 ? (
-                                  <p className="text-xs text-surface-200/30 italic">No current bookings — fully available</p>
+                                  <p className="text-xs text-slate-400 italic">No current bookings — fully available</p>
                                 ) : (
                                   <div className="flex flex-col gap-1.5">
                                     {item.bookings.map((b, idx) => {
@@ -407,13 +396,13 @@ export default function ResourcesPage() {
                                           }`}
                                         >
                                           <div className="flex items-center gap-2">
-                                            <Clock size={10} className={bConflict ? "text-red-400" : "text-surface-200/40"} />
-                                            <span className={bConflict ? "text-red-300 font-semibold" : "text-surface-200/50"}>
+                                            <Clock size={10} className={bConflict ? "text-red-400" : "text-slate-500"} />
+                                            <span className={bConflict ? "text-red-300 font-semibold" : "text-slate-500"}>
                                               {formatSlot(b.from)} → {formatSlot(b.to)}
                                             </span>
                                           </div>
                                           <div className="flex items-center gap-1.5">
-                                            <span className="text-surface-200/40">{b.borrower}</span>
+                                            <span className="text-slate-500">{b.borrower}</span>
                                             {bConflict && (
                                               <span className="text-[9px] px-1.5 py-0.5 rounded bg-red-500/20 text-red-400 font-bold">
                                                 CONFLICT
@@ -446,27 +435,27 @@ export default function ResourcesPage() {
                       <div className="glass rounded-xl p-4 mb-3">
                         {/* Time Range Picker */}
                         <div className="mb-4 p-3 rounded-xl bg-surface-900/40 border border-surface-200/5">
-                          <p className="text-[10px] font-semibold uppercase tracking-wider text-surface-200/50 mb-2.5 flex items-center gap-1.5">
+                          <p className="text-[10px] font-semibold uppercase tracking-wider text-slate-500 mb-2.5 flex items-center gap-1.5">
                             <Clock size={10} className="text-sky-400" />
                             When do you need these?
                           </p>
                           <div className="grid grid-cols-2 gap-3">
                             <div>
-                              <label className="block text-[10px] text-surface-200/40 mb-1 uppercase tracking-wider">From</label>
+                              <label className="block text-[10px] text-slate-500 mb-1 uppercase tracking-wider">From</label>
                               <input
                                 type="datetime-local"
                                 value={bookFrom}
                                 onChange={(e) => setBookFrom(e.target.value)}
-                                className="w-full px-3 py-2 rounded-lg bg-surface-900/50 border border-surface-200/10 text-white text-xs focus:outline-none focus:border-sky-500/50 focus:ring-1 focus:ring-sky-500/30 transition-all [color-scheme:dark]"
+                                className="w-full px-3 py-2 rounded-lg bg-white/60 border border-slate-200/50 text-slate-800 text-xs focus:outline-none focus:border-sky-500/50 focus:ring-1 focus:ring-sky-500/30 transition-all [color-scheme:dark]"
                               />
                             </div>
                             <div>
-                              <label className="block text-[10px] text-surface-200/40 mb-1 uppercase tracking-wider">To</label>
+                              <label className="block text-[10px] text-slate-500 mb-1 uppercase tracking-wider">To</label>
                               <input
                                 type="datetime-local"
                                 value={bookTo}
                                 onChange={(e) => setBookTo(e.target.value)}
-                                className="w-full px-3 py-2 rounded-lg bg-surface-900/50 border border-surface-200/10 text-white text-xs focus:outline-none focus:border-sky-500/50 focus:ring-1 focus:ring-sky-500/30 transition-all [color-scheme:dark]"
+                                className="w-full px-3 py-2 rounded-lg bg-white/60 border border-slate-200/50 text-slate-800 text-xs focus:outline-none focus:border-sky-500/50 focus:ring-1 focus:ring-sky-500/30 transition-all [color-scheme:dark]"
                               />
                             </div>
                           </div>
@@ -478,7 +467,7 @@ export default function ResourcesPage() {
                               animate={{ opacity: 1 }}
                               className="mt-3 flex items-center gap-2 px-3 py-2 rounded-lg bg-red-500/10 border border-red-500/20"
                             >
-                              <AlertTriangle size={13} className="text-red-400 flex-shrink-0" />
+                              <Warning size={13} className="text-red-400 flex-shrink-0" />
                               <p className="text-xs text-red-300">
                                 <span className="font-semibold">Scheduling conflict detected!</span> One or more items overlap with existing bookings. Click items to view details.
                               </p>
@@ -491,7 +480,7 @@ export default function ResourcesPage() {
                               animate={{ opacity: 1 }}
                               className="mt-3 flex items-center gap-2 px-3 py-2 rounded-lg bg-emerald-500/10 border border-emerald-500/20"
                             >
-                              <CheckCircle2 size={13} className="text-emerald-400 flex-shrink-0" />
+                              <CheckCircle size={13} className="text-emerald-400 flex-shrink-0" />
                               <p className="text-xs text-emerald-300">
                                 <span className="font-semibold">No conflicts!</span> Your time slot is clear.
                               </p>
@@ -501,20 +490,20 @@ export default function ResourcesPage() {
 
                         {/* Permission info */}
                         <div className="flex items-start gap-2.5 mb-3">
-                          <AlertTriangle size={14} className="text-amber-400 mt-0.5 flex-shrink-0" />
+                          <Warning size={14} className="text-amber-400 mt-0.5 flex-shrink-0" />
                           <div>
-                            <p className="text-xs text-surface-200/50">
+                            <p className="text-xs text-slate-500">
                               Permission required from{" "}
-                              <span className="text-white font-semibold">
+                              <span className="text-slate-800 font-semibold">
                                 {coordinator?.name || "Club Coordinator"}
                               </span>
                             </p>
                             {coordinator && (
                               <a
                                 href={`mailto:${coordinator.email}`}
-                                className="inline-flex items-center gap-1 text-xs text-indigo-400 hover:text-indigo-300 mt-1 transition-colors"
+                                className="inline-flex items-center gap-1 text-xs text-sky-400 hover:text-sky-300 mt-1 transition-colors"
                               >
-                                <Mail size={10} />
+                                <Envelope size={10} />
                                 {coordinator.email}
                               </a>
                             )}
@@ -553,7 +542,7 @@ export default function ResourcesPage() {
                           cursor-pointer
                         "
                       >
-                        <Mail size={15} />
+                        <Envelope size={15} />
                         Request Issuance from Coordinator
                       </motion.button>
                     </motion.div>
@@ -583,13 +572,13 @@ export default function ResourcesPage() {
               className="w-full max-w-lg glass-strong rounded-2xl p-6 flex flex-col gap-4 max-h-[85vh] overflow-y-auto"
             >
               <div className="flex items-center justify-between">
-                <h3 className="text-lg font-bold text-white flex items-center gap-2">
-                  <Mail size={18} className="text-sky-400" />
+                <h3 className="text-lg font-bold text-slate-800 flex items-center gap-2">
+                  <Envelope size={18} className="text-sky-400" />
                   Permission Request
                 </h3>
                 <button
                   onClick={() => setRequestModal(null)}
-                  className="w-8 h-8 rounded-lg bg-surface-200/5 flex items-center justify-center text-surface-200/40 hover:text-white transition-colors cursor-pointer"
+                  className="w-8 h-8 rounded-lg bg-slate-100/80 flex items-center justify-center text-slate-500 hover:text-slate-800 transition-colors cursor-pointer"
                 >
                   <X size={16} />
                 </button>
@@ -597,19 +586,19 @@ export default function ResourcesPage() {
 
               <div className="bg-surface-900/40 rounded-xl p-3 border border-surface-200/5">
                 <div className="flex items-center gap-2 mb-1">
-                  <span className="text-[10px] uppercase tracking-wider text-surface-200/40 font-semibold">To</span>
+                  <span className="text-[10px] uppercase tracking-wider text-slate-500 font-semibold">To</span>
                 </div>
-                <p className="text-sm text-white font-medium">{requestModal.coordinatorName}</p>
-                <p className="text-xs text-indigo-400">{requestModal.coordinatorEmail}</p>
+                <p className="text-sm text-slate-800 font-medium">{requestModal.coordinatorName}</p>
+                <p className="text-xs text-sky-400">{requestModal.coordinatorEmail}</p>
               </div>
 
               <div className="bg-surface-900/40 rounded-xl p-3 border border-surface-200/5">
-                <span className="text-[10px] uppercase tracking-wider text-surface-200/40 font-semibold">Subject</span>
-                <p className="text-sm text-white mt-1">{requestModal.subject}</p>
+                <span className="text-[10px] uppercase tracking-wider text-slate-500 font-semibold">Subject</span>
+                <p className="text-sm text-slate-800 mt-1">{requestModal.subject}</p>
               </div>
 
               <div className="bg-surface-900/40 rounded-xl p-3 border border-surface-200/5">
-                <span className="text-[10px] uppercase tracking-wider text-surface-200/40 font-semibold">Message</span>
+                <span className="text-[10px] uppercase tracking-wider text-slate-500 font-semibold">Message</span>
                 <pre className="text-sm text-surface-200/70 mt-2 whitespace-pre-wrap font-sans leading-relaxed">{requestModal.body}</pre>
               </div>
 
@@ -628,7 +617,7 @@ export default function ResourcesPage() {
                   `}
                 >
                   {copied ? (
-                    <><CheckCircle2 size={15} /> Copied to Clipboard!</>
+                    <><CheckCircle size={15} /> Copied to Clipboard!</>
                   ) : (
                     <><Copy size={15} /> Copy to Clipboard</>
                   )}
@@ -639,15 +628,15 @@ export default function ResourcesPage() {
                   className="
                     py-3 px-5 rounded-xl font-semibold text-sm
                     flex items-center justify-center gap-2 cursor-pointer
-                    bg-surface-200/5 border border-surface-200/10 text-surface-200/60
-                    hover:border-surface-200/20 hover:text-white transition-all duration-300
+                    bg-slate-100/80 border border-slate-200/50 text-slate-500
+                    hover:border-slate-300/50 hover:text-slate-800 transition-all duration-300
                   "
                 >
-                  <Mail size={15} /> Open Mail
+                  <Envelope size={15} /> Open Mail
                 </motion.a>
               </div>
 
-              <p className="text-[11px] text-surface-200/30 text-center">
+              <p className="text-[11px] text-slate-400 text-center">
                 Copy the message above and send it via email, WhatsApp, or any messenger
               </p>
             </motion.div>

@@ -5,19 +5,7 @@
 
 import { useState, useEffect, type FormEvent } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import {
-  CalendarPlus,
-  MapPin,
-  Clock,
-  SendHorizonal,
-  CheckCircle2,
-  Package,
-  AlertTriangle,
-  Mail,
-  User,
-  Building2,
-  Copy,
-} from "lucide-react";
+import { CalendarPlus, MapPin, Clock, PaperPlaneRight, CheckCircle, Package, Warning, Envelope, User, Buildings, Copy } from "@phosphor-icons/react";
 import { useAuth } from "../context/AuthContext";
 
 // ═══════════════════════════════════════════════════════════════
@@ -203,7 +191,7 @@ export default function PlanEventPage() {
           </div>
           <div>
             <h1 className="text-2xl font-bold text-white">Plan Event</h1>
-            <p className="text-sm text-surface-200/40">Schedule & request resources</p>
+            <p className="text-sm text-slate-500">Schedule & request resources</p>
           </div>
         </div>
       </motion.header>
@@ -217,14 +205,14 @@ export default function PlanEventPage() {
       >
         {/* ── Event Details Card ─────────────────────────── */}
         <div className="glass-strong rounded-2xl p-6 flex flex-col gap-5">
-          <h2 className="text-sm font-semibold text-surface-200/60 uppercase tracking-wider flex items-center gap-2">
+          <h2 className="text-sm font-semibold text-slate-500 uppercase tracking-wider flex items-center gap-2">
             <CalendarPlus size={14} className="text-emerald-400" />
             Event Details
           </h2>
 
           {/* Title */}
           <div>
-            <label className="block text-xs font-medium text-surface-200/50 mb-1.5 uppercase tracking-wider">
+            <label className="block text-xs font-medium text-slate-500 mb-1.5 uppercase tracking-wider">
               Event Title
             </label>
             <input
@@ -233,13 +221,13 @@ export default function PlanEventPage() {
               onChange={(e) => setTitle(e.target.value)}
               placeholder="TechNova 2026 — Hackathon"
               required
-              className="w-full px-4 py-3 rounded-xl bg-surface-900/50 border border-surface-200/10 text-white text-sm placeholder:text-surface-200/25 focus:outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/30 transition-all"
+              className="w-full px-4 py-3 rounded-xl bg-white/60 border border-slate-200/50 text-slate-800 text-sm placeholder:text-slate-400 focus:outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/30 transition-all"
             />
           </div>
 
           {/* Description */}
           <div>
-            <label className="block text-xs font-medium text-surface-200/50 mb-1.5 uppercase tracking-wider">
+            <label className="block text-xs font-medium text-slate-500 mb-1.5 uppercase tracking-wider">
               Description
             </label>
             <textarea
@@ -247,14 +235,14 @@ export default function PlanEventPage() {
               onChange={(e) => setDescription(e.target.value)}
               placeholder="What's this event about?"
               rows={3}
-              className="w-full px-4 py-3 rounded-xl bg-surface-900/50 border border-surface-200/10 text-white text-sm placeholder:text-surface-200/25 focus:outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/30 transition-all resize-none"
+              className="w-full px-4 py-3 rounded-xl bg-white/60 border border-slate-200/50 text-slate-800 text-sm placeholder:text-slate-400 focus:outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/30 transition-all resize-none"
             />
           </div>
 
           {/* Date + Time row */}
           <div className="grid grid-cols-3 gap-3">
             <div>
-              <label className="block text-xs font-medium text-surface-200/50 mb-1.5 uppercase tracking-wider">
+              <label className="block text-xs font-medium text-slate-500 mb-1.5 uppercase tracking-wider">
                 <CalendarPlus size={11} className="inline mr-1" /> Date
               </label>
               <input
@@ -262,11 +250,11 @@ export default function PlanEventPage() {
                 value={date}
                 onChange={(e) => setDate(e.target.value)}
                 required
-                className="w-full px-3 py-3 rounded-xl bg-surface-900/50 border border-surface-200/10 text-white text-sm focus:outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/30 transition-all [color-scheme:dark]"
+                className="w-full px-3 py-3 rounded-xl bg-white/60 border border-slate-200/50 text-slate-800 text-sm focus:outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/30 transition-all [color-scheme:dark]"
               />
             </div>
             <div>
-              <label className="block text-xs font-medium text-surface-200/50 mb-1.5 uppercase tracking-wider">
+              <label className="block text-xs font-medium text-slate-500 mb-1.5 uppercase tracking-wider">
                 <Clock size={11} className="inline mr-1" /> Start
               </label>
               <input
@@ -274,18 +262,18 @@ export default function PlanEventPage() {
                 value={startTime}
                 onChange={(e) => setStartTime(e.target.value)}
                 required
-                className="w-full px-3 py-3 rounded-xl bg-surface-900/50 border border-surface-200/10 text-white text-sm focus:outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/30 transition-all [color-scheme:dark]"
+                className="w-full px-3 py-3 rounded-xl bg-white/60 border border-slate-200/50 text-slate-800 text-sm focus:outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/30 transition-all [color-scheme:dark]"
               />
             </div>
             <div>
-              <label className="block text-xs font-medium text-surface-200/50 mb-1.5 uppercase tracking-wider">
+              <label className="block text-xs font-medium text-slate-500 mb-1.5 uppercase tracking-wider">
                 <Clock size={11} className="inline mr-1" /> End
               </label>
               <input
                 type="time"
                 value={endTime}
                 onChange={(e) => setEndTime(e.target.value)}
-                className="w-full px-3 py-3 rounded-xl bg-surface-900/50 border border-surface-200/10 text-white text-sm focus:outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/30 transition-all [color-scheme:dark]"
+                className="w-full px-3 py-3 rounded-xl bg-white/60 border border-slate-200/50 text-slate-800 text-sm focus:outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/30 transition-all [color-scheme:dark]"
               />
             </div>
           </div>
@@ -293,7 +281,7 @@ export default function PlanEventPage() {
           {/* Location + Club row */}
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block text-xs font-medium text-surface-200/50 mb-1.5 uppercase tracking-wider">
+              <label className="block text-xs font-medium text-slate-500 mb-1.5 uppercase tracking-wider">
                 <MapPin size={11} className="inline mr-1" /> Location
               </label>
               <input
@@ -302,17 +290,17 @@ export default function PlanEventPage() {
                 onChange={(e) => setLocation(e.target.value)}
                 placeholder="Main Auditorium"
                 required
-                className="w-full px-4 py-3 rounded-xl bg-surface-900/50 border border-surface-200/10 text-white text-sm placeholder:text-surface-200/25 focus:outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/30 transition-all"
+                className="w-full px-4 py-3 rounded-xl bg-white/60 border border-slate-200/50 text-slate-800 text-sm placeholder:text-slate-400 focus:outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/30 transition-all"
               />
             </div>
             <div>
-              <label className="block text-xs font-medium text-surface-200/50 mb-1.5 uppercase tracking-wider">
+              <label className="block text-xs font-medium text-slate-500 mb-1.5 uppercase tracking-wider">
                 Club
               </label>
               <select
                 value={clubId}
                 onChange={(e) => setClubId(e.target.value)}
-                className="w-full px-4 py-3 rounded-xl bg-surface-900/50 border border-surface-200/10 text-white text-sm focus:outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/30 transition-all cursor-pointer appearance-none"
+                className="w-full px-4 py-3 rounded-xl bg-white/60 border border-slate-200/50 text-slate-800 text-sm focus:outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/30 transition-all cursor-pointer appearance-none"
               >
                 <option value="">🌐 College-wide</option>
                 {clubs.map((c) => (
@@ -328,7 +316,7 @@ export default function PlanEventPage() {
         {/* ── Inventory Requirements Card ────────────────── */}
         <div className="glass-strong rounded-2xl p-6 flex flex-col gap-5">
           <div className="flex items-center justify-between">
-            <h2 className="text-sm font-semibold text-surface-200/60 uppercase tracking-wider flex items-center gap-2">
+            <h2 className="text-sm font-semibold text-slate-500 uppercase tracking-wider flex items-center gap-2">
               <Package size={14} className="text-amber-400" />
               Requirements — College Inventory
             </h2>
@@ -341,8 +329,8 @@ export default function PlanEventPage() {
 
           {CATEGORIES.map((cat) => (
             <div key={cat}>
-              <p className="text-[11px] font-semibold text-surface-200/40 uppercase tracking-wider mb-2 flex items-center gap-1.5">
-                <Building2 size={10} />
+              <p className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                <Buildings size={10} />
                 {cat}
               </p>
               <div className="flex flex-col gap-1.5">
@@ -363,15 +351,15 @@ export default function PlanEventPage() {
                         type="checkbox"
                         checked={isChecked}
                         onChange={() => toggleItem(item.id)}
-                        className="w-4 h-4 rounded border-surface-200/20 bg-surface-900/50 text-amber-500 focus:ring-amber-500/30 cursor-pointer accent-amber-500"
+                        className="w-4 h-4 rounded border-slate-300/50 bg-white/60 text-amber-500 focus:ring-amber-500/30 cursor-pointer accent-amber-500"
                       />
                       <span className="text-lg">{item.emoji}</span>
                       <div className="flex-1 min-w-0">
-                        <span className={`text-sm font-medium ${isChecked ? "text-white" : "text-surface-200/70"}`}>
+                        <span className={`text-sm font-medium ${isChecked ? "text-slate-800" : "text-surface-200/70"}`}>
                           {item.name}
                         </span>
                       </div>
-                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-surface-200/5 text-surface-200/35 font-medium">
+                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-slate-100/80 text-slate-400 font-medium">
                         qty: {item.quantity}
                       </span>
                     </label>
@@ -402,7 +390,7 @@ export default function PlanEventPage() {
               cursor-pointer
             "
           >
-            <AlertTriangle size={16} />
+            <Warning size={16} />
             Generate Permission List
           </motion.button>
         )}
@@ -416,8 +404,8 @@ export default function PlanEventPage() {
               exit={{ opacity: 0, y: -10 }}
               className="glass-strong rounded-2xl p-6 flex flex-col gap-4"
             >
-              <h2 className="text-sm font-semibold text-surface-200/60 uppercase tracking-wider flex items-center gap-2">
-                <AlertTriangle size={14} className="text-rose-400" />
+              <h2 className="text-sm font-semibold text-slate-500 uppercase tracking-wider flex items-center gap-2">
+                <Warning size={14} className="text-rose-400" />
                 Permission Required From
               </h2>
 
@@ -436,9 +424,9 @@ export default function PlanEventPage() {
                       </div>
                       <div className="flex-1 min-w-0">
                         <p className="text-sm font-semibold text-white">{entry.custodian}</p>
-                        <p className="text-xs text-surface-200/40 mb-2">{entry.custodianRole}</p>
-                        <p className="text-xs text-indigo-400 mb-1 flex items-center gap-1">
-                          <Mail size={11} />
+                        <p className="text-xs text-slate-500 mb-2">{entry.custodianRole}</p>
+                        <p className="text-xs text-sky-400 mb-1 flex items-center gap-1">
+                          <Envelope size={11} />
                           {entry.custodianEmail}
                         </p>
                         <button
@@ -455,12 +443,12 @@ export default function PlanEventPage() {
                             transition-all cursor-pointer mt-1
                             ${copiedEmail === entry.custodianEmail
                               ? "bg-emerald-500/15 border border-emerald-500/25 text-emerald-400"
-                              : "bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 hover:bg-indigo-500/20"
+                              : "bg-sky-500/10 border border-sky-500/20 text-sky-400 hover:bg-sky-500/20"
                             }
                           `}
                         >
                           {copiedEmail === entry.custodianEmail ? (
-                            <><CheckCircle2 size={11} /> Copied!</>
+                            <><CheckCircle size={11} /> Copied!</>
                           ) : (
                             <><Copy size={11} /> Copy Request Email</>
                           )}
@@ -481,7 +469,7 @@ export default function PlanEventPage() {
                 ))}
               </div>
 
-              <p className="text-xs text-surface-200/30 text-center italic mt-1">
+              <p className="text-xs text-slate-400 text-center italic mt-1">
                 Click "Copy Request Email" on each card, then paste into your email or messenger
               </p>
             </motion.div>
@@ -505,7 +493,7 @@ export default function PlanEventPage() {
               exit={{ opacity: 0 }}
               className="flex items-center justify-center gap-2 py-3.5 rounded-xl bg-emerald-500/15 border border-emerald-500/25 text-emerald-400 font-semibold text-sm"
             >
-              <CheckCircle2 size={18} />
+              <CheckCircle size={18} />
               Event planned successfully!
             </motion.div>
           ) : (
@@ -525,7 +513,7 @@ export default function PlanEventPage() {
                 cursor-pointer
               "
             >
-              <SendHorizonal size={16} />
+              <PaperPlaneRight size={16} />
               Plan Event
             </motion.button>
           )}
