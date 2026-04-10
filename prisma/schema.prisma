@@ -1,0 +1,179 @@
+// ─────────────────────────────────────────────────────────────
+//  Community Platform — Prisma Schema
+//  Database: PostgreSQL  |  Generator: prisma-client-js
+// ─────────────────────────────────────────────────────────────
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ── Enums ────────────────────────────────────────────────────
+
+enum UserTag {
+  FACULTY
+  PRESIDENT
+  COORDINATOR
+  CLUB_MEMBER
+  STUDENT
+
+  @@map("user_tag")
+}
+
+enum AvailabilityState {
+  AVAILABLE
+  CHECKED_OUT
+  RESERVED
+  ARCHIVED
+
+  @@map("availability_state")
+}
+
+// ── User ─────────────────────────────────────────────────────
+
+model User {
+  id        String   @id @default(uuid()) @db.Uuid
+  email     String   @unique
+  password  String
+  name      String
+  avatarUrl String?  @map("avatar_url")
+  tag       UserTag  @default(STUDENT)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  clubs         ClubMembership[]
+  announcements Announcement[]
+  events        Event[]
+  resources     Resource[]
+
+  // Audit: changes performed BY this user (as admin)
+  auditsMade    AuditLog[] @relation("AuditPerformedBy")
+  // Audit: changes applied TO this user
+  auditsApplied AuditLog[] @relation("AuditAppliedTo")
+
+  @@map("users")
+}
+
+// ── Club ─────────────────────────────────────────────────────
+
+model Club {
+  id          String   @id @default(uuid()) @db.Uuid
+  name        String   @unique
+  description String?
+  logoUrl     String?  @map("logo_url")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  members       ClubMembership[]
+  announcements Announcement[]
+  events        Event[]
+  resources     Resource[]
+
+  @@map("clubs")
+}
+
+// ── Club ↔ User  (Many-to-Many join table) ───────────────────
+
+model ClubMembership {
+  id       String   @id @default(uuid()) @db.Uuid
+  userId   String   @map("user_id") @db.Uuid
+  clubId   String   @map("club_id") @db.Uuid
+  role     String   @default("member") // e.g. "president", "coordinator", "member"
+  joinedAt DateTime @default(now()) @map("joined_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  club Club @relation(fields: [clubId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, clubId])
+  @@map("club_memberships")
+}
+
+// ── Announcement ─────────────────────────────────────────────
+
+model Announcement {
+  id         String   @id @default(uuid()) @db.Uuid
+  title      String
+  body       String
+  pinned     Boolean  @default(false)
+  authorId   String   @map("author_id") @db.Uuid
+  clubId     String?  @map("club_id") @db.Uuid
+  targetYear Int?     @map("target_year")
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+
+  author User  @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  club   Club? @relation(fields: [clubId], references: [id], onDelete: SetNull)
+
+  @@index([clubId])
+  @@index([authorId])
+  @@map("announcements")
+}
+
+// ── Event ────────────────────────────────────────────────────
+
+model Event {
+  id          String   @id @default(uuid()) @db.Uuid
+  title       String
+  description String?
+  date        DateTime @db.Date
+  startTime   DateTime @map("start_time") @db.Time()
+  endTime     DateTime? @map("end_time") @db.Time()
+  location    String
+  organizerId String   @map("organizer_id") @db.Uuid
+  clubId      String?  @map("club_id") @db.Uuid
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  organizer User  @relation(fields: [organizerId], references: [id], onDelete: Cascade)
+  club      Club? @relation(fields: [clubId], references: [id], onDelete: SetNull)
+
+  @@index([date])
+  @@index([clubId])
+  @@map("events")
+}
+
+// ── Resource ─────────────────────────────────────────────────
+
+model Resource {
+  id                String            @id @default(uuid()) @db.Uuid
+  title             String
+  description       String?
+  fileUrl           String?           @map("file_url")
+  availabilityState AvailabilityState @default(AVAILABLE) @map("availability_state")
+  ownerId           String            @map("owner_id") @db.Uuid
+  clubId            String?           @map("club_id") @db.Uuid
+  createdAt         DateTime          @default(now()) @map("created_at")
+  updatedAt         DateTime          @updatedAt @map("updated_at")
+
+  owner User  @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  club  Club? @relation(fields: [clubId], references: [id], onDelete: SetNull)
+
+  @@index([clubId])
+  @@index([ownerId])
+  @@map("resources")
+}
+
+// ── Audit Log ────────────────────────────────────────────────
+
+model AuditLog {
+  id        String   @id @default(uuid()) @db.Uuid
+  adminId   String   @map("admin_id") @db.Uuid
+  targetId  String   @map("target_id") @db.Uuid
+  oldTag    UserTag  @map("old_tag")
+  newTag    UserTag  @map("new_tag")
+  reason    String?
+  createdAt DateTime @default(now()) @map("created_at")
+
+  admin  User @relation("AuditPerformedBy", fields: [adminId], references: [id], onDelete: Cascade)
+  target User @relation("AuditAppliedTo", fields: [targetId], references: [id], onDelete: Cascade)
+
+  @@index([targetId])
+  @@index([adminId])
+  @@map("audit_logs")
+}
