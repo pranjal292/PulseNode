@@ -27,6 +27,7 @@ export interface User {
   name:      string;
   avatarUrl: string | null;
   tag:       UserTag;
+  clubIds:   string[];
   createdAt: Date;
   updatedAt: Date;
 }
