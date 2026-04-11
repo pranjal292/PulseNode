@@ -62,8 +62,8 @@ export default function BottomNav({ userTag }: BottomNavProps) {
       transition={{ type: "spring", stiffness: 400, damping: 34, mass: 0.8 }}
       className="
         fixed bottom-5 left-1/2 z-50
-        glass-strong rounded-full
-        shadow-[0_8px_40px_rgba(0,0,0,0.5),0_0_20px_rgba(99,102,241,0.12)]
+        bg-[#110e0c]/60 backdrop-blur-2xl border border-white/5 rounded-full
+        shadow-[0_8px_40px_rgba(0,0,0,0.8),0_0_20px_rgba(255,123,0,0.1)]
       "
       style={{ x: "-50%" }}
     >
@@ -99,9 +99,9 @@ export default function BottomNav({ userTag }: BottomNavProps) {
                   transition-colors duration-200
                   cursor-pointer select-none
                   outline-none focus-visible:ring-2 focus-visible:ring-accent/50
-                  ${isActive
-                    ? "text-slate-800"
-                    : "text-slate-500 hover:text-slate-600"
+                ${isActive
+                    ? "text-[#110800] font-bold"
+                    : "text-white/50 hover:text-white/80"
                   }
                 `}
                 aria-label={item.label}
@@ -113,8 +113,8 @@ export default function BottomNav({ userTag }: BottomNavProps) {
                     layoutId="nav-active"
                     className="
                       absolute inset-0 rounded-full
-                      bg-gradient-to-r from-sky-500/80 to-blue-600/70
-                      shadow-[0_0_20px_rgba(56,189,248,0.3)]
+                      bg-[#ff7b00]
+                      shadow-[0_4px_16px_rgba(255,123,0,0.3)]
                     "
                     transition={{
                       type: "spring",

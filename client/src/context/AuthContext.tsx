@@ -36,29 +36,36 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   // ── Session Hydration ──────────────────────────────────────
   useEffect(() => {
-    const token = localStorage.getItem(TOKEN_KEY);
-    if (!token) {
-      setIsLoading(false);
-      return;
-    }
-
-    fetch(`${API_URL}/auth/me`, {
-      headers: { Authorization: `Bearer ${token}` },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.success) {
-          setUser(data.user);
-        } else {
-          localStorage.removeItem(TOKEN_KEY);
-        }
-      })
-      .catch((err) => {
-        console.error("Failed to hydrate auth:", err);
-      })
-      .finally(() => {
+    const fetchUser = () => {
+      const token = localStorage.getItem(TOKEN_KEY);
+      if (!token) {
         setIsLoading(false);
-      });
+        return;
+      }
+
+      fetch(`${API_URL}/auth/me`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.success) {
+            setUser(data.user);
+          } else {
+            localStorage.removeItem(TOKEN_KEY);
+            setUser(null);
+          }
+        })
+        .catch((err) => {
+          console.error("Failed to hydrate auth:", err);
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+    };
+
+    fetchUser();
+    const iv = setInterval(fetchUser, 10000);
+    return () => clearInterval(iv);
   }, []);
 
   // ── Login ──────────────────────────────────────────────────

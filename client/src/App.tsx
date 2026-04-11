@@ -12,6 +12,7 @@ import AnnouncementPage from "./pages/AnnouncementPage";
 import PlanEventPage from "./pages/PlanEventPage";
 import EditTagsPage from "./pages/EditTagsPage";
 import ResourcesPage from "./pages/ResourcesPage";
+import { CursorGlow } from "./components/CursorGlow";
 
 function AppShell() {
   const { user, isLoading } = useAuth();
@@ -19,7 +20,7 @@ function AppShell() {
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="w-10 h-10 border-2 border-sky-500/30 border-t-sky-500 rounded-full animate-spin" />
+        <div className="w-10 h-10 border-2 border-orange-500/30 border-t-orange-500 rounded-full animate-spin" />
       </div>
     );
   }
@@ -30,21 +31,27 @@ function AppShell() {
 
   return (
     <>
-      {/* Ambient glassmorphic background */}
-      <div className="fixed inset-0 z-0 overflow-hidden bg-slate-50 text-slate-800">
-        <div className="absolute top-[-10%] left-[-10%] w-[40vw] h-[40vw] rounded-full bg-sky-500/15 mix-blend-screen filter blur-[100px] animate-blob" />
-        <div className="absolute top-[20%] right-[-10%] w-[35vw] h-[35vw] rounded-full bg-blue-300/10 mix-blend-screen filter blur-[90px] animate-blob animation-delay-2000" />
-        <div className="absolute bottom-[-20%] left-[20%] w-[45vw] h-[45vw] rounded-full bg-slate-300/10 mix-blend-screen filter blur-[120px] animate-blob animation-delay-4000" />
-        <div
-          className="absolute inset-0 opacity-[0.03]"
+      <CursorGlow />
+
+      {/* Ambient background */}
+      <div className="fixed inset-0 z-0 overflow-hidden bg-[#0d0c0b] text-white">
+        {/* Grainy Noise Texture Filter */}
+        <div 
+          className="absolute inset-0 opacity-[0.25] mix-blend-overlay pointer-events-none" 
           style={{
-            backgroundImage: `
-              linear-gradient(rgba(255,255,255,0.15) 1px, transparent 1px),
-              linear-gradient(90deg, rgba(255,255,255,0.15) 1px, transparent 1px)
-            `,
-            backgroundSize: "64px 64px",
+            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`
           }}
         />
+
+        {/* Structural center-left orange glow */}
+        <div 
+          className="absolute top-[10%] left-[20%] w-[60vw] h-[60vw] rounded-full pointer-events-none mix-blend-screen"
+          style={{
+            background: "radial-gradient(circle at center, rgba(255,123,0,0.12) 0%, transparent 60%)",
+            filter: "blur(60px)"
+          }}
+        />
+        
       </div>
 
       {/* Page content */}

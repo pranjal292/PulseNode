@@ -5,7 +5,7 @@
 
 import { useState, useEffect, type FormEvent } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { CalendarPlus, MapPin, Clock, PaperPlaneRight, CheckCircle, Package, Warning, Envelope, User, Buildings, Copy } from "@phosphor-icons/react";
+import { CalendarPlus, MapPin, Clock, PaperPlaneRight, CheckCircle, Package, Warning, Envelope, User, Buildings, Copy, Ruler, ProjectorScreen, SpeakerHifi, MicrophoneStage, Desktop, Bank, Student, Armchair, Tree, Laptop, Desk, MaskHappy, ClipboardText, Plug } from "@phosphor-icons/react";
 import { useAuth } from "../context/AuthContext";
 
 // ═══════════════════════════════════════════════════════════════
@@ -15,7 +15,7 @@ import { useAuth } from "../context/AuthContext";
 interface InventoryItem {
   id: string;
   name: string;
-  emoji: string;
+  icon: any;
   category: string;
   custodian: string;         // Who manages this item
   custodianEmail: string;    // Email of the custodian
@@ -25,32 +25,32 @@ interface InventoryItem {
 
 const INVENTORY: InventoryItem[] = [
   // ── AV & Tech ──────────────────────────────────────────
-  { id: "inv-1",  name: "DSLR Camera",            emoji: "📷", category: "AV & Tech",        custodian: "Prof. R. K. Jain",         custodianEmail: "rk.jain.ece@iiitkota.ac.in",      custodianRole: "ECE Lab In-charge",     quantity: 3 },
-  { id: "inv-2",  name: "Video Camera (Handycam)", emoji: "🎥", category: "AV & Tech",        custodian: "Prof. R. K. Jain",         custodianEmail: "rk.jain.ece@iiitkota.ac.in",      custodianRole: "ECE Lab In-charge",     quantity: 2 },
-  { id: "inv-3",  name: "Tripod Stand",            emoji: "📐", category: "AV & Tech",        custodian: "Prof. R. K. Jain",         custodianEmail: "rk.jain.ece@iiitkota.ac.in",      custodianRole: "ECE Lab In-charge",     quantity: 5 },
-  { id: "inv-4",  name: "Projector",               emoji: "📽️", category: "AV & Tech",       custodian: "Dr. Suman Meena",          custodianEmail: "suman.meena.cse@iiitkota.ac.in",  custodianRole: "CSE Lab In-charge",     quantity: 4 },
-  { id: "inv-5",  name: "Portable Speaker System", emoji: "🔊", category: "AV & Tech",        custodian: "Administrative Office",    custodianEmail: "admin@iiitkota.ac.in",            custodianRole: "Admin Office",          quantity: 3 },
-  { id: "inv-6",  name: "Wireless Microphone Set",  emoji: "🎤", category: "AV & Tech",       custodian: "Administrative Office",    custodianEmail: "admin@iiitkota.ac.in",            custodianRole: "Admin Office",          quantity: 6 },
-  { id: "inv-7",  name: "LED Screen / Display",    emoji: "🖥️", category: "AV & Tech",       custodian: "Dr. Suman Meena",          custodianEmail: "suman.meena.cse@iiitkota.ac.in",  custodianRole: "CSE Lab In-charge",     quantity: 2 },
+  { id: "inv-1",  name: "DSLR Camera",            icon: Package, category: "AV & Tech",        custodian: "Prof. R. K. Jain",         custodianEmail: "rk.jain.ece@iiitkota.ac.in",      custodianRole: "ECE Lab In-charge",     quantity: 3 },
+  { id: "inv-2",  name: "Video Camera (Handycam)", icon: Package, category: "AV & Tech",        custodian: "Prof. R. K. Jain",         custodianEmail: "rk.jain.ece@iiitkota.ac.in",      custodianRole: "ECE Lab In-charge",     quantity: 2 },
+  { id: "inv-3",  name: "Tripod Stand",            icon: Ruler, category: "AV & Tech",        custodian: "Prof. R. K. Jain",         custodianEmail: "rk.jain.ece@iiitkota.ac.in",      custodianRole: "ECE Lab In-charge",     quantity: 5 },
+  { id: "inv-4",  name: "Projector",               icon: ProjectorScreen, category: "AV & Tech",       custodian: "Dr. Suman Meena",          custodianEmail: "suman.meena.cse@iiitkota.ac.in",  custodianRole: "CSE Lab In-charge",     quantity: 4 },
+  { id: "inv-5",  name: "Portable Speaker System", icon: SpeakerHifi, category: "AV & Tech",        custodian: "Administrative Office",    custodianEmail: "admin@iiitkota.ac.in",            custodianRole: "Admin Office",          quantity: 3 },
+  { id: "inv-6",  name: "Wireless Microphone Set",  icon: MicrophoneStage, category: "AV & Tech",       custodian: "Administrative Office",    custodianEmail: "admin@iiitkota.ac.in",            custodianRole: "Admin Office",          quantity: 6 },
+  { id: "inv-7",  name: "LED Screen / Display",    icon: Desktop, category: "AV & Tech",       custodian: "Dr. Suman Meena",          custodianEmail: "suman.meena.cse@iiitkota.ac.in",  custodianRole: "CSE Lab In-charge",     quantity: 2 },
 
   // ── Venues ──────────────────────────────────────────────
-  { id: "inv-8",  name: "Main Auditorium",          emoji: "🏛️", category: "Venues",          custodian: "Dean of Student Affairs",  custodianEmail: "dean.sa@iiitkota.ac.in",          custodianRole: "Dean SA Office",        quantity: 1 },
-  { id: "inv-9",  name: "Seminar Hall (Block A)",  emoji: "🏫", category: "Venues",           custodian: "Prof. A. K. Sharma",       custodianEmail: "ak.sharma.hmas@iiitkota.ac.in",   custodianRole: "HMAS HOD",              quantity: 1 },
-  { id: "inv-10", name: "Lecture Hall (LH-1)",     emoji: "🪑", category: "Venues",           custodian: "Administrative Office",    custodianEmail: "admin@iiitkota.ac.in",            custodianRole: "Admin Office",          quantity: 1 },
-  { id: "inv-11", name: "Lecture Hall (LH-2)",     emoji: "🪑", category: "Venues",           custodian: "Administrative Office",    custodianEmail: "admin@iiitkota.ac.in",            custodianRole: "Admin Office",          quantity: 1 },
-  { id: "inv-12", name: "Open Air Theatre",        emoji: "🌳", category: "Venues",           custodian: "Dean of Student Affairs",  custodianEmail: "dean.sa@iiitkota.ac.in",          custodianRole: "Dean SA Office",        quantity: 1 },
-  { id: "inv-13", name: "Computer Lab (Lab-1)",    emoji: "💻", category: "Venues",           custodian: "Dr. Suman Meena",          custodianEmail: "suman.meena.cse@iiitkota.ac.in",  custodianRole: "CSE Lab In-charge",     quantity: 1 },
+  { id: "inv-8",  name: "Main Auditorium",          icon: Bank, category: "Venues",          custodian: "Dean of Student Affairs",  custodianEmail: "dean.sa@iiitkota.ac.in",          custodianRole: "Dean SA Office",        quantity: 1 },
+  { id: "inv-9",  name: "Seminar Hall (Block A)",  icon: Student, category: "Venues",           custodian: "Prof. A. K. Sharma",       custodianEmail: "ak.sharma.hmas@iiitkota.ac.in",   custodianRole: "HMAS HOD",              quantity: 1 },
+  { id: "inv-10", name: "Lecture Hall (LH-1)",     icon: Armchair, category: "Venues",           custodian: "Administrative Office",    custodianEmail: "admin@iiitkota.ac.in",            custodianRole: "Admin Office",          quantity: 1 },
+  { id: "inv-11", name: "Lecture Hall (LH-2)",     icon: Armchair, category: "Venues",           custodian: "Administrative Office",    custodianEmail: "admin@iiitkota.ac.in",            custodianRole: "Admin Office",          quantity: 1 },
+  { id: "inv-12", name: "Open Air Theatre",        icon: Tree, category: "Venues",           custodian: "Dean of Student Affairs",  custodianEmail: "dean.sa@iiitkota.ac.in",          custodianRole: "Dean SA Office",        quantity: 1 },
+  { id: "inv-13", name: "Computer Lab (Lab-1)",    icon: Laptop, category: "Venues",           custodian: "Dr. Suman Meena",          custodianEmail: "suman.meena.cse@iiitkota.ac.in",  custodianRole: "CSE Lab In-charge",     quantity: 1 },
 
   // ── Furniture & Setup ───────────────────────────────────
-  { id: "inv-14", name: "Folding Tables",           emoji: "🪵", category: "Furniture & Setup", custodian: "Administrative Office",  custodianEmail: "admin@iiitkota.ac.in",            custodianRole: "Admin Office",          quantity: 20 },
-  { id: "inv-15", name: "Plastic Chairs (set of 50)", emoji: "💺", category: "Furniture & Setup", custodian: "Administrative Office", custodianEmail: "admin@iiitkota.ac.in",           custodianRole: "Admin Office",          quantity: 4 },
-  { id: "inv-16", name: "Stage / Podium",           emoji: "🎭", category: "Furniture & Setup", custodian: "Dean of Student Affairs", custodianEmail: "dean.sa@iiitkota.ac.in",         custodianRole: "Dean SA Office",        quantity: 1 },
-  { id: "inv-17", name: "Whiteboard (Portable)",    emoji: "📋", category: "Furniture & Setup", custodian: "Administrative Office",  custodianEmail: "admin@iiitkota.ac.in",            custodianRole: "Admin Office",          quantity: 6 },
-  { id: "inv-18", name: "Extension Cords / Power Strips", emoji: "🔌", category: "Furniture & Setup", custodian: "Maintenance Dept",  custodianEmail: "maintenance@iiitkota.ac.in",     custodianRole: "Maintenance",           quantity: 10 },
+  { id: "inv-14", name: "Folding Tables",           icon: Desk, category: "Furniture & Setup", custodian: "Administrative Office",  custodianEmail: "admin@iiitkota.ac.in",            custodianRole: "Admin Office",          quantity: 20 },
+  { id: "inv-15", name: "Plastic Chairs (set of 50)", icon: Armchair, category: "Furniture & Setup", custodian: "Administrative Office", custodianEmail: "admin@iiitkota.ac.in",           custodianRole: "Admin Office",          quantity: 4 },
+  { id: "inv-16", name: "Stage / Podium",           icon: MaskHappy, category: "Furniture & Setup", custodian: "Dean of Student Affairs", custodianEmail: "dean.sa@iiitkota.ac.in",         custodianRole: "Dean SA Office",        quantity: 1 },
+  { id: "inv-17", name: "Whiteboard (Portable)",    icon: ClipboardText, category: "Furniture & Setup", custodian: "Administrative Office",  custodianEmail: "admin@iiitkota.ac.in",            custodianRole: "Admin Office",          quantity: 6 },
+  { id: "inv-18", name: "Extension Cords / Power Strips", icon: Plug, category: "Furniture & Setup", custodian: "Maintenance Dept",  custodianEmail: "maintenance@iiitkota.ac.in",     custodianRole: "Maintenance",           quantity: 10 },
 
   // ── Sports & Outdoors ───────────────────────────────────
-  { id: "inv-19", name: "Sports Ground Booking",    emoji: "⚽", category: "Sports & Outdoors", custodian: "FIC Sports",              custodianEmail: "sports@iiitkota.ac.in",           custodianRole: "FIC Sports",            quantity: 1 },
-  { id: "inv-20", name: "Tents / Canopy Shade",    emoji: "⛺", category: "Sports & Outdoors", custodian: "Administrative Office",   custodianEmail: "admin@iiitkota.ac.in",            custodianRole: "Admin Office",          quantity: 4 },
+  { id: "inv-19", name: "Sports Ground Booking",    icon: Package, category: "Sports & Outdoors", custodian: "FIC Sports",              custodianEmail: "sports@iiitkota.ac.in",           custodianRole: "FIC Sports",            quantity: 1 },
+  { id: "inv-20", name: "Tents / Canopy Shade",    icon: Package, category: "Sports & Outdoors", custodian: "Administrative Office",   custodianEmail: "admin@iiitkota.ac.in",            custodianRole: "Admin Office",          quantity: 4 },
 ];
 
 // Group inventory by category
@@ -140,17 +140,20 @@ export default function PlanEventPage() {
     if (!token) return;
 
     try {
-      const res = await fetch("http://localhost:4000/api/announcements", {
+      const res = await fetch("http://localhost:4000/api/events", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
-          title: `📅 Event: ${title.trim()}`,
-          body: `${description.trim()}\n\n📍 ${location} · 🕐 ${startTime}${endTime ? ` – ${endTime}` : ""} · 📆 ${date}`,
+          title: title.trim(),
+          description: description.trim(),
+          date,
+          startTime,
+          endTime,
+          location,
           clubId: clubId || null,
-          pinned: false,
         }),
       });
 
@@ -191,7 +194,7 @@ export default function PlanEventPage() {
           </div>
           <div>
             <h1 className="text-2xl font-bold text-white">Plan Event</h1>
-            <p className="text-sm text-slate-500">Schedule & request resources</p>
+            <p className="text-sm text-surface-200/50">Schedule & request resources</p>
           </div>
         </div>
       </motion.header>
@@ -205,14 +208,14 @@ export default function PlanEventPage() {
       >
         {/* ── Event Details Card ─────────────────────────── */}
         <div className="glass-strong rounded-2xl p-6 flex flex-col gap-5">
-          <h2 className="text-sm font-semibold text-slate-500 uppercase tracking-wider flex items-center gap-2">
+          <h2 className="text-sm font-semibold text-surface-200/50 uppercase tracking-wider flex items-center gap-2">
             <CalendarPlus size={14} className="text-emerald-400" />
             Event Details
           </h2>
 
           {/* Title */}
           <div>
-            <label className="block text-xs font-medium text-slate-500 mb-1.5 uppercase tracking-wider">
+            <label className="block text-xs font-medium text-surface-200/50 mb-1.5 uppercase tracking-wider">
               Event Title
             </label>
             <input
@@ -221,13 +224,13 @@ export default function PlanEventPage() {
               onChange={(e) => setTitle(e.target.value)}
               placeholder="TechNova 2026 — Hackathon"
               required
-              className="w-full px-4 py-3 rounded-xl bg-white/60 border border-slate-200/50 text-slate-800 text-sm placeholder:text-slate-400 focus:outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/30 transition-all"
+              className="w-full px-4 py-3 rounded-xl bg-surface-900/50 border border-surface-200/10 text-white text-sm placeholder:text-surface-200/30 focus:outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/30 transition-all"
             />
           </div>
 
           {/* Description */}
           <div>
-            <label className="block text-xs font-medium text-slate-500 mb-1.5 uppercase tracking-wider">
+            <label className="block text-xs font-medium text-surface-200/50 mb-1.5 uppercase tracking-wider">
               Description
             </label>
             <textarea
@@ -235,14 +238,14 @@ export default function PlanEventPage() {
               onChange={(e) => setDescription(e.target.value)}
               placeholder="What's this event about?"
               rows={3}
-              className="w-full px-4 py-3 rounded-xl bg-white/60 border border-slate-200/50 text-slate-800 text-sm placeholder:text-slate-400 focus:outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/30 transition-all resize-none"
+              className="w-full px-4 py-3 rounded-xl bg-surface-900/50 border border-surface-200/10 text-white text-sm placeholder:text-surface-200/30 focus:outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/30 transition-all resize-none"
             />
           </div>
 
           {/* Date + Time row */}
           <div className="grid grid-cols-3 gap-3">
             <div>
-              <label className="block text-xs font-medium text-slate-500 mb-1.5 uppercase tracking-wider">
+              <label className="block text-xs font-medium text-surface-200/50 mb-1.5 uppercase tracking-wider">
                 <CalendarPlus size={11} className="inline mr-1" /> Date
               </label>
               <input
@@ -250,11 +253,11 @@ export default function PlanEventPage() {
                 value={date}
                 onChange={(e) => setDate(e.target.value)}
                 required
-                className="w-full px-3 py-3 rounded-xl bg-white/60 border border-slate-200/50 text-slate-800 text-sm focus:outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/30 transition-all [color-scheme:dark]"
+                className="w-full px-3 py-3 rounded-xl bg-surface-900/50 border border-surface-200/10 text-white text-sm focus:outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/30 transition-all [color-scheme:dark]"
               />
             </div>
             <div>
-              <label className="block text-xs font-medium text-slate-500 mb-1.5 uppercase tracking-wider">
+              <label className="block text-xs font-medium text-surface-200/50 mb-1.5 uppercase tracking-wider">
                 <Clock size={11} className="inline mr-1" /> Start
               </label>
               <input
@@ -262,18 +265,18 @@ export default function PlanEventPage() {
                 value={startTime}
                 onChange={(e) => setStartTime(e.target.value)}
                 required
-                className="w-full px-3 py-3 rounded-xl bg-white/60 border border-slate-200/50 text-slate-800 text-sm focus:outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/30 transition-all [color-scheme:dark]"
+                className="w-full px-3 py-3 rounded-xl bg-surface-900/50 border border-surface-200/10 text-white text-sm focus:outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/30 transition-all [color-scheme:dark]"
               />
             </div>
             <div>
-              <label className="block text-xs font-medium text-slate-500 mb-1.5 uppercase tracking-wider">
+              <label className="block text-xs font-medium text-surface-200/50 mb-1.5 uppercase tracking-wider">
                 <Clock size={11} className="inline mr-1" /> End
               </label>
               <input
                 type="time"
                 value={endTime}
                 onChange={(e) => setEndTime(e.target.value)}
-                className="w-full px-3 py-3 rounded-xl bg-white/60 border border-slate-200/50 text-slate-800 text-sm focus:outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/30 transition-all [color-scheme:dark]"
+                className="w-full px-3 py-3 rounded-xl bg-surface-900/50 border border-surface-200/10 text-white text-sm focus:outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/30 transition-all [color-scheme:dark]"
               />
             </div>
           </div>
@@ -281,7 +284,7 @@ export default function PlanEventPage() {
           {/* Location + Club row */}
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block text-xs font-medium text-slate-500 mb-1.5 uppercase tracking-wider">
+              <label className="block text-xs font-medium text-surface-200/50 mb-1.5 uppercase tracking-wider">
                 <MapPin size={11} className="inline mr-1" /> Location
               </label>
               <input
@@ -290,17 +293,17 @@ export default function PlanEventPage() {
                 onChange={(e) => setLocation(e.target.value)}
                 placeholder="Main Auditorium"
                 required
-                className="w-full px-4 py-3 rounded-xl bg-white/60 border border-slate-200/50 text-slate-800 text-sm placeholder:text-slate-400 focus:outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/30 transition-all"
+                className="w-full px-4 py-3 rounded-xl bg-surface-900/50 border border-surface-200/10 text-white text-sm placeholder:text-surface-200/30 focus:outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/30 transition-all"
               />
             </div>
             <div>
-              <label className="block text-xs font-medium text-slate-500 mb-1.5 uppercase tracking-wider">
+              <label className="block text-xs font-medium text-surface-200/50 mb-1.5 uppercase tracking-wider">
                 Club
               </label>
               <select
                 value={clubId}
                 onChange={(e) => setClubId(e.target.value)}
-                className="w-full px-4 py-3 rounded-xl bg-white/60 border border-slate-200/50 text-slate-800 text-sm focus:outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/30 transition-all cursor-pointer appearance-none"
+                className="w-full px-4 py-3 rounded-xl bg-surface-900/50 border border-surface-200/10 text-white text-sm focus:outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/30 transition-all cursor-pointer appearance-none"
               >
                 <option value="">🌐 College-wide</option>
                 {clubs.map((c) => (
@@ -316,7 +319,7 @@ export default function PlanEventPage() {
         {/* ── Inventory Requirements Card ────────────────── */}
         <div className="glass-strong rounded-2xl p-6 flex flex-col gap-5">
           <div className="flex items-center justify-between">
-            <h2 className="text-sm font-semibold text-slate-500 uppercase tracking-wider flex items-center gap-2">
+            <h2 className="text-sm font-semibold text-surface-200/50 uppercase tracking-wider flex items-center gap-2">
               <Package size={14} className="text-amber-400" />
               Requirements — College Inventory
             </h2>
@@ -329,7 +332,7 @@ export default function PlanEventPage() {
 
           {CATEGORIES.map((cat) => (
             <div key={cat}>
-              <p className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+              <p className="text-[11px] font-semibold text-surface-200/50 uppercase tracking-wider mb-2 flex items-center gap-1.5">
                 <Buildings size={10} />
                 {cat}
               </p>
@@ -351,15 +354,15 @@ export default function PlanEventPage() {
                         type="checkbox"
                         checked={isChecked}
                         onChange={() => toggleItem(item.id)}
-                        className="w-4 h-4 rounded border-slate-300/50 bg-white/60 text-amber-500 focus:ring-amber-500/30 cursor-pointer accent-amber-500"
+                        className="w-4 h-4 rounded border-surface-200/20 bg-surface-900/50 text-amber-500 focus:ring-amber-500/30 cursor-pointer accent-amber-500"
                       />
-                      <span className="text-lg">{item.emoji}</span>
+                      <span className="text-lg"><item.icon size={20} weight="duotone" /></span>
                       <div className="flex-1 min-w-0">
-                        <span className={`text-sm font-medium ${isChecked ? "text-slate-800" : "text-surface-200/70"}`}>
+                        <span className={`text-sm font-medium ${isChecked ? "text-white" : "text-surface-200/70"}`}>
                           {item.name}
                         </span>
                       </div>
-                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-slate-100/80 text-slate-400 font-medium">
+                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-surface-900/60 text-surface-200/30 font-medium">
                         qty: {item.quantity}
                       </span>
                     </label>
@@ -404,7 +407,7 @@ export default function PlanEventPage() {
               exit={{ opacity: 0, y: -10 }}
               className="glass-strong rounded-2xl p-6 flex flex-col gap-4"
             >
-              <h2 className="text-sm font-semibold text-slate-500 uppercase tracking-wider flex items-center gap-2">
+              <h2 className="text-sm font-semibold text-surface-200/50 uppercase tracking-wider flex items-center gap-2">
                 <Warning size={14} className="text-rose-400" />
                 Permission Required From
               </h2>
@@ -424,8 +427,8 @@ export default function PlanEventPage() {
                       </div>
                       <div className="flex-1 min-w-0">
                         <p className="text-sm font-semibold text-white">{entry.custodian}</p>
-                        <p className="text-xs text-slate-500 mb-2">{entry.custodianRole}</p>
-                        <p className="text-xs text-sky-400 mb-1 flex items-center gap-1">
+                        <p className="text-xs text-surface-200/50 mb-2">{entry.custodianRole}</p>
+                        <p className="text-xs text-orange-400 mb-1 flex items-center gap-1">
                           <Envelope size={11} />
                           {entry.custodianEmail}
                         </p>
@@ -443,7 +446,7 @@ export default function PlanEventPage() {
                             transition-all cursor-pointer mt-1
                             ${copiedEmail === entry.custodianEmail
                               ? "bg-emerald-500/15 border border-emerald-500/25 text-emerald-400"
-                              : "bg-sky-500/10 border border-sky-500/20 text-sky-400 hover:bg-sky-500/20"
+                              : "bg-orange-500/10 border border-orange-500/20 text-orange-400 hover:bg-orange-500/20"
                             }
                           `}
                         >
@@ -469,7 +472,7 @@ export default function PlanEventPage() {
                 ))}
               </div>
 
-              <p className="text-xs text-slate-400 text-center italic mt-1">
+              <p className="text-xs text-surface-200/30 text-center italic mt-1">
                 Click "Copy Request Email" on each card, then paste into your email or messenger
               </p>
             </motion.div>

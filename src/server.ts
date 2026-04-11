@@ -42,8 +42,11 @@ app.get("/health", (_req, res) => {
 
 import authRouter from "./routes/auth";
 import announcementsRouter from "./routes/announcements";
+import eventsRouter from "./routes/events";
+
 app.use("/api/auth", authRouter);
 app.use("/api/announcements", announcementsRouter);
+app.use("/api/events", eventsRouter);
 app.use("/api", tagRouter);
 
 // ── Error Handler (must be last) ─────────────────────────────

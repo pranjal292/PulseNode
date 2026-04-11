@@ -79,18 +79,18 @@ export default function LoginPage() {
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
             transition={{ type: "spring", stiffness: 400, damping: 15, delay: 0.15 }}
-            className="w-16 h-16 rounded-2xl bg-gradient-to-br from-sky-500 to-blue-600 flex items-center justify-center shadow-[0_0_40px_rgba(99,102,241,0.35)] mb-4"
+            className="w-16 h-16 rounded-2xl bg-gradient-to-br from-orange-500 to-red-600 flex items-center justify-center shadow-[0_0_40px_rgba(99,102,241,0.35)] mb-4"
           >
             <span className="text-2xl font-bold text-white">H</span>
           </motion.div>
-          <h1 className="text-2xl font-bold text-slate-800 tracking-tight">HTC Community</h1>
-          <p className="text-slate-500 text-sm mt-1">Your college, connected.</p>
+          <h1 className="text-2xl font-bold text-white tracking-tight">HTC Community</h1>
+          <p className="text-surface-200/50 text-sm mt-1">Your college, connected.</p>
         </div>
 
         {/* Glass Card */}
         <div className="glass-strong rounded-3xl p-8 shadow-[0_16px_64px_rgba(0,0,0,0.4)]">
           {/* Tab Toggle */}
-          <div className="flex bg-slate-100/80 rounded-xl p-1 mb-6">
+          <div className="flex bg-surface-900/60 rounded-xl p-1 mb-6">
             {(["login", "signup"] as Mode[]).map((m) => (
               <button
                 key={m}
@@ -100,8 +100,8 @@ export default function LoginPage() {
                   transition-all duration-300 cursor-pointer
                   flex items-center justify-center gap-2
                   ${mode === m
-                    ? "bg-gradient-to-r from-sky-500/80 to-blue-500/80 text-white shadow-lg"
-                    : "text-slate-500 hover:text-slate-600"
+                    ? "bg-gradient-to-r from-orange-500/80 to-red-500/80 text-white shadow-lg"
+                    : "text-surface-200/50 hover:text-surface-200/80"
                   }
                 `}
               >
@@ -123,17 +123,17 @@ export default function LoginPage() {
                   transition={{ duration: 0.25 }}
                   className="overflow-hidden"
                 >
-                  <label className="block text-xs font-medium text-slate-500 mb-1.5 uppercase tracking-wider">
+                  <label className="block text-xs font-medium text-surface-200/50 mb-1.5 uppercase tracking-wider">
                     Full Name
                   </label>
                   <div className="relative">
-                    <User size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
+                    <User size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-surface-200/30" />
                     <input
                       type="text"
                       value={name}
                       onChange={(e) => setName(e.target.value)}
                       placeholder="Pranjal Swami"
-                      className="w-full pl-10 pr-4 py-3 rounded-xl bg-white/60 border border-slate-200/50 text-slate-800 text-sm placeholder:text-slate-400 focus:outline-none focus:border-sky-500/50 focus:ring-1 focus:ring-sky-500/30 transition-all"
+                      className="w-full pl-10 pr-4 py-3 rounded-xl bg-surface-900/50 border border-surface-200/10 text-white text-sm placeholder:text-surface-200/30 focus:outline-none focus:border-orange-500/50 focus:ring-1 focus:ring-orange-500/30 transition-all"
                     />
                   </div>
                 </motion.div>
@@ -141,40 +141,40 @@ export default function LoginPage() {
             </AnimatePresence>
 
             <div>
-              <label className="block text-xs font-medium text-slate-500 mb-1.5 uppercase tracking-wider">
+              <label className="block text-xs font-medium text-surface-200/50 mb-1.5 uppercase tracking-wider">
                 Email
               </label>
               <div className="relative">
-                <Envelope size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
+                <Envelope size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-surface-200/30" />
                 <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="you@htc.edu"
                   required
-                  className="w-full pl-10 pr-4 py-3 rounded-xl bg-white/60 border border-slate-200/50 text-slate-800 text-sm placeholder:text-slate-400 focus:outline-none focus:border-sky-500/50 focus:ring-1 focus:ring-sky-500/30 transition-all"
+                  className="w-full pl-10 pr-4 py-3 rounded-xl bg-surface-900/50 border border-surface-200/10 text-white text-sm placeholder:text-surface-200/30 focus:outline-none focus:border-orange-500/50 focus:ring-1 focus:ring-orange-500/30 transition-all"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-slate-500 mb-1.5 uppercase tracking-wider">
+              <label className="block text-xs font-medium text-surface-200/50 mb-1.5 uppercase tracking-wider">
                 Password
               </label>
               <div className="relative">
-                <LockKey size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
+                <LockKey size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-surface-200/30" />
                 <input
                   type={showPw ? "text" : "password"}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••"
                   required
-                  className="w-full pl-10 pr-11 py-3 rounded-xl bg-white/60 border border-slate-200/50 text-slate-800 text-sm placeholder:text-slate-400 focus:outline-none focus:border-sky-500/50 focus:ring-1 focus:ring-sky-500/30 transition-all"
+                  className="w-full pl-10 pr-11 py-3 rounded-xl bg-surface-900/50 border border-surface-200/10 text-white text-sm placeholder:text-surface-200/30 focus:outline-none focus:border-orange-500/50 focus:ring-1 focus:ring-orange-500/30 transition-all"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPw(!showPw)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-500 transition-colors cursor-pointer"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-surface-200/30 hover:text-surface-200/50 transition-colors cursor-pointer"
                 >
                   {showPw ? <EyeClosed size={16} /> : <Eye size={16} />}
                 </button>
@@ -201,11 +201,8 @@ export default function LoginPage() {
               disabled={loading}
               className="
                 w-full py-3.5 rounded-xl
-                bg-gradient-to-r from-sky-500 to-blue-600
-                hover:from-sky-400 hover:to-blue-500
-                text-white font-semibold text-sm
-                shadow-[0_4px_24px_rgba(99,102,241,0.35)]
-                hover:shadow-[0_8px_32px_rgba(99,102,241,0.5)]
+                btn-primary font-semibold text-sm
+                
                 transition-all duration-300
                 disabled:opacity-50 disabled:cursor-not-allowed
                 flex items-center justify-center gap-2

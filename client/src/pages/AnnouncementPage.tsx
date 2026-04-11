@@ -101,12 +101,12 @@ export default function AnnouncementPage() {
         className="mb-8"
       >
         <div className="flex items-center gap-3 mb-1">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-sky-500/20 to-blue-500/20 flex items-center justify-center">
-            <Megaphone size={20} className="text-sky-400" />
+          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-orange-500/20 to-red-500/20 flex items-center justify-center">
+            <Megaphone size={20} className="text-orange-400" />
           </div>
           <div>
             <h1 className="text-2xl font-bold text-white">Post Announcement</h1>
-            <p className="text-sm text-slate-500">Broadcast to the community</p>
+            <p className="text-sm text-surface-200/50">Broadcast to the community</p>
           </div>
         </div>
       </motion.header>
@@ -120,7 +120,7 @@ export default function AnnouncementPage() {
       >
         {/* Title */}
         <div>
-          <label className="block text-xs font-medium text-slate-500 mb-1.5 uppercase tracking-wider">
+          <label className="block text-xs font-medium text-surface-200/50 mb-1.5 uppercase tracking-wider">
             Title
           </label>
           <input
@@ -129,13 +129,13 @@ export default function AnnouncementPage() {
             onChange={(e) => setTitle(e.target.value)}
             placeholder="Mid-Semester Exam Schedule Released"
             required
-            className="w-full px-4 py-3 rounded-xl bg-white/60 border border-slate-200/50 text-slate-800 text-sm placeholder:text-slate-400 focus:outline-none focus:border-sky-500/50 focus:ring-1 focus:ring-sky-500/30 transition-all"
+            className="w-full px-4 py-3 rounded-xl bg-surface-900/50 border border-surface-200/10 text-white text-sm placeholder:text-surface-200/30 focus:outline-none focus:border-orange-500/50 focus:ring-1 focus:ring-orange-500/30 transition-all"
           />
         </div>
 
         {/* Body */}
         <div>
-          <label className="block text-xs font-medium text-slate-500 mb-1.5 uppercase tracking-wider">
+          <label className="block text-xs font-medium text-surface-200/50 mb-1.5 uppercase tracking-wider">
             Message
           </label>
           <textarea
@@ -144,19 +144,19 @@ export default function AnnouncementPage() {
             placeholder="Write your announcement here..."
             required
             rows={5}
-            className="w-full px-4 py-3 rounded-xl bg-white/60 border border-slate-200/50 text-slate-800 text-sm placeholder:text-slate-400 focus:outline-none focus:border-sky-500/50 focus:ring-1 focus:ring-sky-500/30 transition-all resize-none"
+            className="w-full px-4 py-3 rounded-xl bg-surface-900/50 border border-surface-200/10 text-white text-sm placeholder:text-surface-200/30 focus:outline-none focus:border-orange-500/50 focus:ring-1 focus:ring-orange-500/30 transition-all resize-none"
           />
         </div>
 
         {/* Scope + Pin row */}
         <div className="flex flex-col gap-4">
           <div>
-            <label className="block text-xs font-medium text-slate-500 mb-2 uppercase tracking-wider">
+            <label className="block text-xs font-medium text-surface-200/50 mb-2 uppercase tracking-wider">
               Scope
             </label>
 
             {/* Scope Type Toggle */}
-            <div className="flex bg-slate-100/80 rounded-xl p-1 mb-3">
+            <div className="flex bg-surface-900/60 rounded-xl p-1 mb-3">
               {[
                 { key: "global" as const, label: "🌐 Global", icon: null },
                 { key: "year" as const, label: "🎓 Year-wise", icon: null },
@@ -170,8 +170,8 @@ export default function AnnouncementPage() {
                     flex-1 py-2 rounded-lg text-xs font-semibold
                     transition-all duration-200 cursor-pointer
                     ${scopeType === opt.key
-                      ? "bg-gradient-to-r from-sky-500/80 to-blue-500/80 text-white shadow-lg"
-                      : "text-slate-500 hover:text-slate-600"
+                      ? "bg-gradient-to-r from-orange-500/80 to-red-500/80 text-white shadow-lg"
+                      : "text-surface-200/50 hover:text-surface-200/80"
                     }
                   `}
                 >
@@ -185,7 +185,7 @@ export default function AnnouncementPage() {
               <select
                 value={targetYear}
                 onChange={(e) => setTargetYear(Number(e.target.value))}
-                className="w-full px-4 py-3 rounded-xl bg-white/60 border border-slate-200/50 text-slate-800 text-sm focus:outline-none focus:border-sky-500/50 focus:ring-1 focus:ring-sky-500/30 transition-all cursor-pointer appearance-none"
+                className="w-full px-4 py-3 rounded-xl bg-surface-900/50 border border-surface-200/10 text-white text-sm focus:outline-none focus:border-orange-500/50 focus:ring-1 focus:ring-orange-500/30 transition-all cursor-pointer appearance-none"
               >
                 <option value={0}>Select year...</option>
                 {YEAR_OPTIONS.filter(o => o.value > 0).map((opt) => (
@@ -201,7 +201,7 @@ export default function AnnouncementPage() {
               <select
                 value={clubId}
                 onChange={(e) => setClubId(e.target.value)}
-                className="w-full px-4 py-3 rounded-xl bg-white/60 border border-slate-200/50 text-slate-800 text-sm focus:outline-none focus:border-sky-500/50 focus:ring-1 focus:ring-sky-500/30 transition-all cursor-pointer appearance-none"
+                className="w-full px-4 py-3 rounded-xl bg-surface-900/50 border border-surface-200/10 text-white text-sm focus:outline-none focus:border-orange-500/50 focus:ring-1 focus:ring-orange-500/30 transition-all cursor-pointer appearance-none"
               >
                 <option value="">Select club...</option>
                 {clubs.map((c) => (
@@ -213,15 +213,15 @@ export default function AnnouncementPage() {
             )}
 
             {scopeType === "global" && (
-              <p className="text-[11px] text-slate-400 italic">All students will see this announcement.</p>
+              <p className="text-[11px] text-surface-200/30 italic">All students will see this announcement.</p>
             )}
             {scopeType === "year" && targetYear > 0 && (
-              <p className="text-[11px] text-slate-400 mt-1.5 italic">
+              <p className="text-[11px] text-surface-200/30 mt-1.5 italic">
                 Only {targetYear === 1 ? "1st" : targetYear === 2 ? "2nd" : targetYear === 3 ? "3rd" : "4th"} year students will see this.
               </p>
             )}
             {scopeType === "club" && clubId && (
-              <p className="text-[11px] text-slate-400 mt-1.5 italic">
+              <p className="text-[11px] text-surface-200/30 mt-1.5 italic">
                 Only members of this club will see this announcement.
               </p>
             )}
@@ -237,7 +237,7 @@ export default function AnnouncementPage() {
                 ${
                   pinned
                     ? "bg-amber-500/15 border-amber-500/30 text-amber-400"
-                    : "bg-white/60 border-slate-200/50 text-slate-500 hover:border-amber-500/20 hover:text-amber-400/60"
+                    : "bg-surface-900/50 border-surface-200/10 text-surface-200/50 hover:border-amber-500/20 hover:text-amber-400/60"
                 }
               `}
             >
@@ -274,9 +274,7 @@ export default function AnnouncementPage() {
               whileTap={{ scale: 0.97 }}
               className="
                 w-full py-3.5 rounded-xl
-                bg-gradient-to-r from-sky-500 to-blue-600
-                hover:from-sky-400 hover:to-blue-500
-                text-white font-semibold text-sm
+                btn-primary font-semibold text-sm
                 shadow-[0_4px_24px_rgba(99,102,241,0.3)]
                 hover:shadow-[0_8px_32px_rgba(99,102,241,0.45)]
                 transition-all duration-300

@@ -6,14 +6,13 @@ import { useState, useEffect, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Megaphone, Calendar, PushPin, MapPin, Clock, SignOut, User, CaretDown } from "@phosphor-icons/react";
 import { useAuth } from "../context/AuthContext";
-import { MOCK_EVENTS } from "../data/mock";
 import { UserTag } from "../types";
 
 const TAG_BADGE_COLOR: Record<UserTag, string> = {
   [UserTag.FACULTY]: "from-rose-500/80 to-pink-500/80",
-  [UserTag.PRESIDENT]: "from-blue-500/80 to-blue-500/80",
+  [UserTag.PRESIDENT]: "from-red-500/80 to-red-500/80",
   [UserTag.COORDINATOR]: "from-amber-500/80 to-orange-500/80",
-  [UserTag.CLUB_MEMBER]: "from-sky-500/80 to-cyan-500/80",
+  [UserTag.CLUB_MEMBER]: "from-orange-500/80 to-cyan-500/80",
   [UserTag.STUDENT]: "from-emerald-500/80 to-teal-500/80",
 };
 
@@ -62,19 +61,32 @@ export default function UpdatesPage() {
   const [announcements, setAnnouncements] = useState<any[]>([]);
   const [expandedAnnouncementId, setExpandedAnnouncementId] = useState<string | null>(null);
   const [expandedEventId, setExpandedEventId] = useState<string | null>(null);
+  const [eventsData, setEventsData] = useState<any[]>([]);
 
-  // Fetch announcements from live API
+  // Fetch announcements & events with polling
   useEffect(() => {
     const token = localStorage.getItem("htc_token");
     if (!token) return;
-    fetch("http://localhost:4000/api/announcements", {
-      headers: { Authorization: `Bearer ${token}` },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.success) setAnnouncements(data.announcements);
-      })
-      .catch(console.error);
+
+    const fetchData = async () => {
+      try {
+        const [annRes, evtRes] = await Promise.all([
+          fetch("http://localhost:4000/api/announcements", { headers: { Authorization: `Bearer ${token}` } }),
+          fetch("http://localhost:4000/api/events", { headers: { Authorization: `Bearer ${token}` } })
+        ]);
+
+        const [annData, evtData] = await Promise.all([annRes.json(), evtRes.json()]);
+
+        if (annData.success) setAnnouncements(annData.announcements);
+        if (evtData.success) setEventsData(evtData.events);
+      } catch (err) {
+        console.error("Polling error:", err);
+      }
+    };
+
+    fetchData(); // Initial
+    const iv = setInterval(fetchData, 8000); // 8-second polling
+    return () => clearInterval(iv);
   }, []);
 
   // Derive the student's academic year from their email
@@ -115,16 +127,14 @@ export default function UpdatesPage() {
   }, [user, announcements, userYear]);
 
   const events = useMemo(() => {
-    return MOCK_EVENTS.filter(
+    return eventsData.filter(
       (e) =>
         e.clubId === null ||
         user?.tag === UserTag.FACULTY ||
         user?.tag === UserTag.PRESIDENT ||
         (user?.clubIds ?? []).includes(e.clubId!)
-    ).sort(
-      (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
     );
-  }, [user]);
+  }, [user, eventsData]);
 
   if (!user) return null;
 
@@ -137,12 +147,12 @@ export default function UpdatesPage() {
         className="flex items-center justify-between mb-8"
       >
         <div>
-          <p className="text-sm text-slate-500">Welcome back,</p>
+          <p className="text-sm text-surface-200/50">Welcome back,</p>
           <h1 className="text-2xl font-bold text-white">{user.name.split(" ")[0]} 👋</h1>
         </div>
         <div className="flex items-center gap-3">
           <div className="flex flex-col items-end">
-            <span className={`text-xs font-semibold px-2.5 py-1 rounded-full bg-gradient-to-r ${TAG_BADGE_COLOR[user.tag]} text-slate-800`}>
+            <span className={`text-xs font-semibold px-2.5 py-1 rounded-full bg-gradient-to-r ${TAG_BADGE_COLOR[user.tag]} text-white`}>
               {TAG_LABEL[user.tag]}
             </span>
           </div>
@@ -151,7 +161,7 @@ export default function UpdatesPage() {
             className="
               w-10 h-10 rounded-xl glass
               flex items-center justify-center
-              text-slate-500 hover:text-red-400
+              text-surface-200/50 hover:text-red-400
               transition-colors cursor-pointer
             "
             title="Sign out"
@@ -164,11 +174,11 @@ export default function UpdatesPage() {
       {/* ── Announcements ───────────────────────────────── */}
       <section className="mb-10">
         <div className="flex items-center gap-2.5 mb-4">
-          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-sky-500/20 to-blue-500/20 flex items-center justify-center">
-            <Megaphone size={16} className="text-sky-400" />
+          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-orange-500/20 to-red-500/20 flex items-center justify-center">
+            <Megaphone size={16} className="text-orange-400" />
           </div>
           <h2 className="text-lg font-semibold text-white">Announcements</h2>
-          <span className="text-xs text-slate-400 bg-slate-100/80 px-2 py-0.5 rounded-full">
+          <span className="text-xs text-surface-200/30 bg-surface-900/60 px-2 py-0.5 rounded-full">
             {filteredAnnouncements.length}
           </span>
         </div>
@@ -180,7 +190,7 @@ export default function UpdatesPage() {
           className="flex flex-col gap-3"
         >
           {filteredAnnouncements.length === 0 && (
-            <p className="text-sm text-slate-500 italic py-4">No announcements yet.</p>
+            <p className="text-sm text-surface-200/50 italic py-4">No announcements yet.</p>
           )}
           {filteredAnnouncements.map((a) => {
             const isExpanded = expandedAnnouncementId === a.id;
@@ -189,38 +199,38 @@ export default function UpdatesPage() {
                 key={a.id}
                 variants={fadeUp}
                 onClick={() => setExpandedAnnouncementId(isExpanded ? null : a.id)}
-                className="glass rounded-2xl p-5 hover:border-sky-500/20 transition-colors group cursor-pointer"
+                className="glass rounded-2xl p-5 hover:border-orange-500/20 transition-colors group cursor-pointer"
               >
                 <div className="flex items-start justify-between mb-2">
                   <div className="flex items-center gap-2">
                     {a.pinned && (
                       <PushPin size={13} className="text-amber-400 fill-amber-400" />
                     )}
-                    <h3 className="font-semibold text-slate-800 text-[15px] group-hover:text-sky-300 transition-colors">
+                    <h3 className="font-semibold text-white text-[15px] group-hover:text-orange-300 transition-colors">
                       {a.title}
                     </h3>
                   </div>
                   <div className="flex items-center gap-2">
                     {a.clubName && (
-                      <span className="text-[11px] px-2 py-0.5 rounded-full bg-slate-100/80 text-slate-500 whitespace-nowrap">
+                      <span className="text-[11px] px-2 py-0.5 rounded-full bg-surface-900/60 text-surface-200/50 whitespace-nowrap">
                         {a.clubName}
                       </span>
                     )}
                     {a.targetYear && (
-                      <span className="text-[11px] px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/15 whitespace-nowrap font-medium">
+                      <span className="text-[11px] px-2 py-0.5 rounded-full bg-red-500/10 text-orange-500 border border-red-500/15 whitespace-nowrap font-medium">
                         🎓 {a.targetYear === 1 ? "1st" : a.targetYear === 2 ? "2nd" : a.targetYear === 3 ? "3rd" : "4th"} Year
                       </span>
                     )}
                     <CaretDown
                       size={14}
-                      className={`text-slate-400 transition-transform duration-200 ${isExpanded ? "rotate-180 text-sky-400" : ""}`}
+                      className={`text-surface-200/30 transition-transform duration-200 ${isExpanded ? "rotate-180 text-orange-400" : ""}`}
                     />
                   </div>
                 </div>
-                <p className={`text-sm text-slate-500 leading-relaxed mb-3 ${isExpanded ? "" : "line-clamp-2"}`}>
+                <p className={`text-sm text-surface-200/50 leading-relaxed mb-3 ${isExpanded ? "" : "line-clamp-2"}`}>
                   {a.body}
                 </p>
-                <div className="flex items-center gap-3 text-xs text-slate-400">
+                <div className="flex items-center gap-3 text-xs text-surface-200/30">
                   <div className="flex items-center gap-1">
                     <User size={11} />
                     <span>{a.authorName}</span>
@@ -239,29 +249,29 @@ export default function UpdatesPage() {
                       transition={{ duration: 0.25 }}
                       className="overflow-hidden"
                     >
-                      <div className="mt-4 pt-4 border-t border-slate-200/50 flex flex-col gap-2">
-                        <div className="flex items-center gap-2 text-xs text-slate-500">
+                      <div className="mt-4 pt-4 border-t border-surface-200/10 flex flex-col gap-2">
+                        <div className="flex items-center gap-2 text-xs text-surface-200/50">
                           <Clock size={11} />
                           <span>Posted on {formatDate(a.createdAt)}</span>
                         </div>
-                        <div className="flex items-center gap-2 text-xs text-slate-500">
+                        <div className="flex items-center gap-2 text-xs text-surface-200/50">
                           <User size={11} />
                           <span>By {a.authorName}</span>
                         </div>
                         {a.clubName && (
-                          <div className="flex items-center gap-2 text-xs text-slate-500">
+                          <div className="flex items-center gap-2 text-xs text-surface-200/50">
                             <Megaphone size={11} />
                             <span>Scoped to {a.clubName}</span>
                           </div>
                         )}
                         {a.targetYear && (
-                          <div className="flex items-center gap-2 text-xs text-blue-400">
+                          <div className="flex items-center gap-2 text-xs text-orange-500">
                             <Megaphone size={11} />
                             <span>🎓 Targeted to {a.targetYear === 1 ? "1st" : a.targetYear === 2 ? "2nd" : a.targetYear === 3 ? "3rd" : "4th"} year students</span>
                           </div>
                         )}
                         {!a.clubName && !a.targetYear && (
-                          <div className="flex items-center gap-2 text-xs text-slate-500">
+                          <div className="flex items-center gap-2 text-xs text-surface-200/50">
                             <Megaphone size={11} />
                             <span>🌐 Global announcement — visible to all</span>
                           </div>
@@ -283,7 +293,7 @@ export default function UpdatesPage() {
             <Calendar size={16} className="text-emerald-400" />
           </div>
           <h2 className="text-lg font-semibold text-white">Upcoming Events</h2>
-          <span className="text-xs text-slate-400 bg-slate-100/80 px-2 py-0.5 rounded-full">
+          <span className="text-xs text-surface-200/30 bg-surface-900/60 px-2 py-0.5 rounded-full">
             {events.length}
           </span>
         </div>
@@ -320,13 +330,13 @@ export default function UpdatesPage() {
                       </h3>
                       <CaretDown
                         size={14}
-                        className={`text-slate-400 transition-transform duration-200 flex-shrink-0 ml-2 ${isExpanded ? "rotate-180 text-emerald-400" : ""}`}
+                        className={`text-surface-200/30 transition-transform duration-200 flex-shrink-0 ml-2 ${isExpanded ? "rotate-180 text-emerald-400" : ""}`}
                       />
                     </div>
-                    <p className={`text-sm text-slate-500 mb-2 ${isExpanded ? "" : "line-clamp-1"}`}>
+                    <p className={`text-sm text-surface-200/50 mb-2 ${isExpanded ? "" : "line-clamp-1"}`}>
                       {e.description}
                     </p>
-                    <div className="flex flex-wrap items-center gap-3 text-xs text-slate-400">
+                    <div className="flex flex-wrap items-center gap-3 text-xs text-surface-200/30">
                       <div className="flex items-center gap-1">
                         <Clock size={11} />
                         <span>
@@ -358,36 +368,36 @@ export default function UpdatesPage() {
                       transition={{ duration: 0.25 }}
                       className="overflow-hidden"
                     >
-                      <div className="mt-4 pt-4 border-t border-slate-200/50 flex flex-col gap-3">
+                      <div className="mt-4 pt-4 border-t border-surface-200/10 flex flex-col gap-3">
                         {/* Full description */}
                         {e.description && (
                           <div>
-                            <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">Description</p>
-                            <p className="text-sm text-slate-500 leading-relaxed">{e.description}</p>
+                            <p className="text-xs font-semibold text-surface-200/50 uppercase tracking-wider mb-1">Description</p>
+                            <p className="text-sm text-surface-200/50 leading-relaxed">{e.description}</p>
                           </div>
                         )}
                         {/* Details grid */}
                         <div className="grid grid-cols-2 gap-3">
                           <div className="bg-surface-900/30 rounded-xl p-3 border border-surface-200/5">
-                            <p className="text-[10px] uppercase tracking-wider text-slate-500 mb-1">Date</p>
-                            <p className="text-sm text-slate-800 font-medium">
+                            <p className="text-[10px] uppercase tracking-wider text-surface-200/50 mb-1">Date</p>
+                            <p className="text-sm text-white font-medium">
                               {new Date(e.date).toLocaleDateString("en-IN", { weekday: "short", month: "long", day: "numeric", year: "numeric" })}
                             </p>
                           </div>
                           <div className="bg-surface-900/30 rounded-xl p-3 border border-surface-200/5">
-                            <p className="text-[10px] uppercase tracking-wider text-slate-500 mb-1">Time</p>
-                            <p className="text-sm text-slate-800 font-medium">
+                            <p className="text-[10px] uppercase tracking-wider text-surface-200/50 mb-1">Time</p>
+                            <p className="text-sm text-white font-medium">
                               {e.startTime}{e.endTime ? ` – ${e.endTime}` : ""}
                             </p>
                           </div>
                           <div className="bg-surface-900/30 rounded-xl p-3 border border-surface-200/5">
-                            <p className="text-[10px] uppercase tracking-wider text-slate-500 mb-1">Location</p>
-                            <p className="text-sm text-slate-800 font-medium">{e.location}</p>
+                            <p className="text-[10px] uppercase tracking-wider text-surface-200/50 mb-1">Location</p>
+                            <p className="text-sm text-white font-medium">{e.location}</p>
                           </div>
                           {e.clubName && (
                             <div className="bg-surface-900/30 rounded-xl p-3 border border-surface-200/5">
-                              <p className="text-[10px] uppercase tracking-wider text-slate-500 mb-1">Organized By</p>
-                              <p className="text-sm text-slate-800 font-medium">{e.clubName}</p>
+                              <p className="text-[10px] uppercase tracking-wider text-surface-200/50 mb-1">Organized By</p>
+                              <p className="text-sm text-white font-medium">{e.clubName}</p>
                             </div>
                           )}
                         </div>

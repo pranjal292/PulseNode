@@ -11,9 +11,9 @@ import { UserTag, type User } from "../types";
 
 const TAG_OPTIONS = [
   { value: UserTag.STUDENT, label: "Student", color: "text-emerald-400" },
-  { value: UserTag.CLUB_MEMBER, label: "Club Member", color: "text-sky-400" },
+  { value: UserTag.CLUB_MEMBER, label: "Club Member", color: "text-orange-400" },
   { value: UserTag.COORDINATOR, label: "Coordinator", color: "text-amber-400" },
-  { value: UserTag.PRESIDENT, label: "President", color: "text-blue-400" },
+  { value: UserTag.PRESIDENT, label: "President", color: "text-orange-500" },
   { value: UserTag.FACULTY, label: "Faculty", color: "text-rose-400" },
 ];
 
@@ -33,16 +33,22 @@ export default function EditTagsPage() {
   const [selectedClubIds, setSelectedClubIds] = useState<string[]>([]);
 
   useEffect(() => {
-    fetchAllUsers().then(setAllUsers);
-    const token = localStorage.getItem("htc_token");
-    fetch("http://localhost:4000/api/clubs", {
-      headers: { Authorization: `Bearer ${token}` }
-    })
-      .then(res => res.json())
-      .then(data => {
-        if (data.success) setAllClubs(data.clubs);
+    const fetchAll = () => {
+      fetchAllUsers().then(setAllUsers);
+      const token = localStorage.getItem("htc_token");
+      fetch("http://localhost:4000/api/clubs", {
+        headers: { Authorization: `Bearer ${token}` }
       })
-      .catch(() => {});
+        .then(res => res.json())
+        .then(data => {
+          if (data.success) setAllClubs(data.clubs);
+        })
+        .catch(() => {});
+    };
+
+    fetchAll();
+    const iv = setInterval(fetchAll, 10000);
+    return () => clearInterval(iv);
   }, [fetchAllUsers]);
   const [newTag, setNewTag] = useState<UserTag | "">("");
   const [success, setSuccess] = useState<string | null>(null);
@@ -106,7 +112,7 @@ export default function EditTagsPage() {
           </div>
           <div>
             <h1 className="text-2xl font-bold text-white">Edit Tags</h1>
-            <p className="text-sm text-slate-500">Update user roles</p>
+            <p className="text-sm text-surface-200/50">Update user roles</p>
           </div>
         </div>
       </motion.header>
@@ -128,7 +134,7 @@ export default function EditTagsPage() {
 
         {/* Select User */}
         <div>
-          <label className="block text-xs font-medium text-slate-500 mb-1.5 uppercase tracking-wider">
+          <label className="block text-xs font-medium text-surface-200/50 mb-1.5 uppercase tracking-wider">
             Select User
           </label>
           <div className="relative">
@@ -139,7 +145,7 @@ export default function EditTagsPage() {
                 setNewTag("");
                 setError(null);
               }}
-              className="w-full px-4 py-3 rounded-xl bg-white/60 border border-slate-200/50 text-slate-800 text-sm focus:outline-none focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/30 transition-all cursor-pointer appearance-none"
+              className="w-full px-4 py-3 rounded-xl bg-surface-900/50 border border-surface-200/10 text-white text-sm focus:outline-none focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/30 transition-all cursor-pointer appearance-none"
             >
               <option value="">Choose a user...</option>
               {editableUsers.map((u) => (
@@ -148,7 +154,7 @@ export default function EditTagsPage() {
                 </option>
               ))}
             </select>
-            <CaretDown size={14} className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
+            <CaretDown size={14} className="absolute right-3 top-1/2 -translate-y-1/2 text-surface-200/30 pointer-events-none" />
           </div>
         </div>
 
@@ -162,12 +168,12 @@ export default function EditTagsPage() {
               className="overflow-hidden"
             >
               <div className="flex items-center gap-3 p-4 rounded-xl bg-surface-900/40 border border-surface-200/8">
-                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-sky-500/30 to-blue-500/30 flex items-center justify-center text-white font-semibold text-sm">
+                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-orange-500/30 to-red-500/30 flex items-center justify-center text-white font-semibold text-sm">
                   {selectedUser.name.charAt(0)}
                 </div>
                 <div>
-                  <p className="text-sm font-semibold text-slate-800">{selectedUser.name}</p>
-                  <p className="text-xs text-slate-500">
+                  <p className="text-sm font-semibold text-white">{selectedUser.name}</p>
+                  <p className="text-xs text-surface-200/50">
                     Current tag:{" "}
                     <span className={TAG_OPTIONS.find((t) => t.value === selectedUser.tag)?.color}>
                       {selectedUser.tag}
@@ -182,7 +188,7 @@ export default function EditTagsPage() {
         {/* New Tag */}
         {selectedUser && (
           <div>
-            <label className="block text-xs font-medium text-slate-500 mb-1.5 uppercase tracking-wider">
+            <label className="block text-xs font-medium text-surface-200/50 mb-1.5 uppercase tracking-wider">
               New Tag
             </label>
             <div className="flex flex-wrap gap-2">
@@ -199,10 +205,10 @@ export default function EditTagsPage() {
                       px-4 py-2 rounded-xl text-sm font-medium
                       border transition-all cursor-pointer
                       ${isCurrent
-                        ? "opacity-30 cursor-not-allowed border-slate-200/50 text-slate-500"
+                        ? "opacity-30 cursor-not-allowed border-surface-200/10 text-surface-200/50"
                         : isSelected
-                          ? `bg-slate-100/80 border-amber-500/40 ${t.color}`
-                          : "bg-surface-900/30 border-slate-200/50 text-slate-500 hover:border-amber-500/20"
+                          ? `bg-surface-900/60 border-amber-500/40 ${t.color}`
+                          : "bg-surface-900/30 border-surface-200/10 text-surface-200/50 hover:border-amber-500/20"
                       }
                     `}
                   >
@@ -225,15 +231,15 @@ export default function EditTagsPage() {
               className="overflow-hidden"
             >
               <div className="pt-2 space-y-3">
-                <label className="block text-xs font-medium text-slate-500 uppercase tracking-wider">
+                <label className="block text-xs font-medium text-surface-200/50 uppercase tracking-wider">
                   Assign to Clubs (Required)
                 </label>
                 <div className="flex flex-col gap-2">
                   {allClubs.length === 0 ? (
-                    <p className="text-sm text-slate-500 italic">No clubs are currently registered in the database.</p>
+                    <p className="text-sm text-surface-200/50 italic">No clubs are currently registered in the database.</p>
                   ) : (
                     allClubs.map(club => (
-                      <label key={club.id} className="flex items-center gap-3 text-sm text-slate-600 p-3 rounded-xl bg-surface-900/30 border border-slate-200/50 cursor-pointer hover:border-amber-500/30 transition-all select-none">
+                      <label key={club.id} className="flex items-center gap-3 text-sm text-surface-200/80 p-3 rounded-xl bg-surface-900/30 border border-surface-200/10 cursor-pointer hover:border-amber-500/30 transition-all select-none">
                         <input
                           type="checkbox"
                           checked={selectedClubIds.includes(club.id)}
@@ -244,7 +250,7 @@ export default function EditTagsPage() {
                               setSelectedClubIds(selectedClubIds.filter(id => id !== club.id));
                             }
                           }}
-                          className="w-4 h-4 accent-amber-500 rounded border-slate-300/50 bg-white/60 cursor-pointer"
+                          className="w-4 h-4 accent-amber-500 rounded border-surface-200/20 bg-surface-900/50 cursor-pointer"
                         />
                         {club.name}
                       </label>
