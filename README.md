@@ -1,4 +1,4 @@
-# 🌟 PulseNode: HTC Community Platform
+# 🌟 PulseNode: PulseNode Platform
 
 A fully featured, full-stack community and club operations platform tailored for universities. It provides a beautiful, modern, and high-performance interface for managing role-based access control, announcements, and college-wide physical resources securely.
 

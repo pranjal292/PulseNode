@@ -35,7 +35,7 @@ export default function EditTagsPage() {
   useEffect(() => {
     const fetchAll = () => {
       fetchAllUsers().then(setAllUsers);
-      const token = localStorage.getItem("htc_token");
+      const token = localStorage.getItem("pulsenode_token");
       fetch("http://localhost:4000/api/clubs", {
         headers: { Authorization: `Bearer ${token}` }
       })

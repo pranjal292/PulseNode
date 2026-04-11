@@ -65,7 +65,7 @@ export default function UpdatesPage() {
 
   // Fetch announcements & events with polling
   useEffect(() => {
-    const token = localStorage.getItem("htc_token");
+    const token = localStorage.getItem("pulsenode_token");
     if (!token) return;
 
     const fetchData = async () => {

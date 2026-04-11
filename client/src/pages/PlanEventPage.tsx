@@ -83,7 +83,7 @@ export default function PlanEventPage() {
 
   // Fetch clubs
   useEffect(() => {
-    const token = localStorage.getItem("htc_token");
+    const token = localStorage.getItem("pulsenode_token");
     if (!token) return;
     fetch("http://localhost:4000/api/clubs", {
       headers: { Authorization: `Bearer ${token}` },
@@ -136,7 +136,7 @@ export default function PlanEventPage() {
     if (!title.trim() || !date || !startTime || !location.trim()) return;
     setError("");
 
-    const token = localStorage.getItem("htc_token");
+    const token = localStorage.getItem("pulsenode_token");
     if (!token) return;
 
     try {

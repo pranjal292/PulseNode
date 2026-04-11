@@ -1,5 +1,5 @@
 {
-  "name": "htc-community-platform",
+  "name": "pulsenode",
   "version": "1.0.0",
   "description": "Community platform backend with RBAC, audit logging, and real-time notifications",
   "main": "dist/server.js",

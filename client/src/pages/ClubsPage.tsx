@@ -38,7 +38,7 @@ export default function ClubsPage() {
   const [expandedClubId, setExpandedClubId] = useState<string | null>(null);
 
   useEffect(() => {
-    const token = localStorage.getItem("htc_token");
+    const token = localStorage.getItem("pulsenode_token");
     if (!token) return;
     fetch("http://localhost:4000/api/clubs", {
       headers: { Authorization: `Bearer ${token}` }

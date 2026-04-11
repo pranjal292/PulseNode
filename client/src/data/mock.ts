@@ -11,7 +11,7 @@ export const MOCK_USERS: (User & { password: string })[] = [
   {
     id: "u1",
     name: "Dr. Ananya Sharma",
-    email: "faculty@htc.edu",
+    email: "faculty@pulsenode.edu",
     password: "faculty123",
     avatarUrl: null,
     tag: UserTag.FACULTY,
@@ -20,7 +20,7 @@ export const MOCK_USERS: (User & { password: string })[] = [
   {
     id: "u2",
     name: "Rahul Verma",
-    email: "president@htc.edu",
+    email: "president@pulsenode.edu",
     password: "president123",
     avatarUrl: null,
     tag: UserTag.PRESIDENT,
@@ -29,7 +29,7 @@ export const MOCK_USERS: (User & { password: string })[] = [
   {
     id: "u3",
     name: "Priya Patel",
-    email: "coordinator@htc.edu",
+    email: "coordinator@pulsenode.edu",
     password: "coordinator123",
     avatarUrl: null,
     tag: UserTag.COORDINATOR,
@@ -38,7 +38,7 @@ export const MOCK_USERS: (User & { password: string })[] = [
   {
     id: "u4",
     name: "Arjun Reddy",
-    email: "member@htc.edu",
+    email: "member@pulsenode.edu",
     password: "member123",
     avatarUrl: null,
     tag: UserTag.CLUB_MEMBER,
@@ -47,7 +47,7 @@ export const MOCK_USERS: (User & { password: string })[] = [
   {
     id: "u5",
     name: "Sneha Gupta",
-    email: "student@htc.edu",
+    email: "student@pulsenode.edu",
     password: "student123",
     avatarUrl: null,
     tag: UserTag.STUDENT,

@@ -34,7 +34,7 @@ export default function AnnouncementPage() {
 
   // Fetch clubs for scope dropdown
   useEffect(() => {
-    const token = localStorage.getItem("htc_token");
+    const token = localStorage.getItem("pulsenode_token");
     if (!token) return;
     fetch("http://localhost:4000/api/clubs", {
       headers: { Authorization: `Bearer ${token}` },
@@ -51,7 +51,7 @@ export default function AnnouncementPage() {
     if (!title.trim() || !body.trim()) return;
     setError("");
 
-    const token = localStorage.getItem("htc_token");
+    const token = localStorage.getItem("pulsenode_token");
     if (!token) return;
 
     try {

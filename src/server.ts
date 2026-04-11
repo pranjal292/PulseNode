@@ -60,7 +60,7 @@ const PORT = parseInt(process.env.PORT ?? "4000", 10);
 server.listen(PORT, () => {
   console.log(`
   ╔══════════════════════════════════════════════╗
-  ║   🚀  HTC Community Platform                ║
+  ║   🚀  PulseNode Platform                ║
   ║   Server  →  http://localhost:${PORT}          ║
   ║   Socket  →  ws://localhost:${PORT}            ║
   ║   Env     →  ${process.env.NODE_ENV ?? "development"}                  ║

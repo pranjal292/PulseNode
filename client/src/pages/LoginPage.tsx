@@ -83,7 +83,7 @@ export default function LoginPage() {
           >
             <span className="text-2xl font-bold text-white">H</span>
           </motion.div>
-          <h1 className="text-2xl font-bold text-white tracking-tight">HTC Community</h1>
+          <h1 className="text-2xl font-bold text-white tracking-tight">PulseNode</h1>
           <p className="text-surface-200/50 text-sm mt-1">Your college, connected.</p>
         </div>
 
@@ -150,7 +150,7 @@ export default function LoginPage() {
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="you@htc.edu"
+                  placeholder="you@pulsenode.edu"
                   required
                   className="w-full pl-10 pr-4 py-3 rounded-xl bg-surface-900/50 border border-surface-200/10 text-white text-sm placeholder:text-surface-200/30 focus:outline-none focus:border-orange-500/50 focus:ring-1 focus:ring-orange-500/30 transition-all"
                 />

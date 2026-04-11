@@ -13,7 +13,7 @@ import {
 import type { User, UserTag } from "../types";
 
 const API_URL = "http://localhost:4000/api";
-const TOKEN_KEY = "htc_token";
+const TOKEN_KEY = "pulsenode_token";
 
 interface AuthState {
   user: User | null;
