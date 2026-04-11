@@ -75,15 +75,11 @@ export default function LoginPage() {
       >
         {/* Brand */}
         <div className="flex flex-col items-center mb-8">
-          <motion.div
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            transition={{ type: "spring", stiffness: 400, damping: 15, delay: 0.15 }}
-            className="w-16 h-16 rounded-2xl bg-gradient-to-br from-orange-500 to-red-600 flex items-center justify-center shadow-[0_0_40px_rgba(99,102,241,0.35)] mb-4"
-          >
-            <span className="text-2xl font-bold text-white">H</span>
-          </motion.div>
-          <h1 className="text-2xl font-bold text-white tracking-tight">PulseNode</h1>
+
+          <h1 className="text-2xl font-bold tracking-tight">
+            <span className="text-white">Pulse</span>
+            <span className="text-[#ff7b00]">Node</span>
+          </h1>
           <p className="text-surface-200/50 text-sm mt-1">Your college, connected.</p>
         </div>
 
