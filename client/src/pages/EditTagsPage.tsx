@@ -1,3 +1,4 @@
+import { API_URL } from "../config";
 // ═══════════════════════════════════════════════════════════════
 //  Edit Tags Page — Change a user's role tag
 //  Visible to: PRESIDENT, COORDINATOR
@@ -36,7 +37,7 @@ export default function EditTagsPage() {
     const fetchAll = () => {
       fetchAllUsers().then(setAllUsers);
       const token = localStorage.getItem("pulsenode_token");
-      fetch("http://localhost:4000/api/clubs", {
+      fetch(`${API_URL}/clubs`, {
         headers: { Authorization: `Bearer ${token}` }
       })
         .then(res => res.json())

@@ -1,3 +1,4 @@
+import { API_URL } from "../config";
 // ═══════════════════════════════════════════════════════════════
 //  Plan Event Page — Create events with inventory requirements
 //  Visible to: PRESIDENT, COORDINATOR
@@ -85,7 +86,7 @@ export default function PlanEventPage() {
   useEffect(() => {
     const token = localStorage.getItem("pulsenode_token");
     if (!token) return;
-    fetch("http://localhost:4000/api/clubs", {
+    fetch(`${API_URL}/clubs`, {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((res) => res.json())
@@ -140,7 +141,7 @@ export default function PlanEventPage() {
     if (!token) return;
 
     try {
-      const res = await fetch("http://localhost:4000/api/events", {
+      const res = await fetch(`${API_URL}/events`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

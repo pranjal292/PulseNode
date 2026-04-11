@@ -1,3 +1,4 @@
+import { API_URL } from "../config";
 // ═══════════════════════════════════════════════════════════════
 //  Resources Page — Club inventory & issuance with scheduling
 //  Visible to: CLUB_MEMBER+
@@ -158,7 +159,7 @@ export default function ResourcesPage() {
   useEffect(() => {
     const token = localStorage.getItem("pulsenode_token");
     if (!token) return;
-    fetch("http://localhost:4000/api/clubs", {
+    fetch(`${API_URL}/clubs`, {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((res) => res.json())

@@ -1,3 +1,4 @@
+import { API_URL } from "../config";
 // ═══════════════════════════════════════════════════════════════
 //  Announcement Page — Create new announcements
 //  FACULTY  → scope by student year (derived from email)
@@ -36,7 +37,7 @@ export default function AnnouncementPage() {
   useEffect(() => {
     const token = localStorage.getItem("pulsenode_token");
     if (!token) return;
-    fetch("http://localhost:4000/api/clubs", {
+    fetch(`${API_URL}/clubs`, {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((res) => res.json())
@@ -55,7 +56,7 @@ export default function AnnouncementPage() {
     if (!token) return;
 
     try {
-      const res = await fetch("http://localhost:4000/api/announcements", {
+      const res = await fetch(`${API_URL}/announcements`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

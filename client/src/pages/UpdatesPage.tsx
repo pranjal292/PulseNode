@@ -1,3 +1,4 @@
+import { API_URL } from "../config";
 // ═══════════════════════════════════════════════════════════════
 //  Updates Page — Home feed with announcements + events
 // ═══════════════════════════════════════════════════════════════
@@ -71,8 +72,8 @@ export default function UpdatesPage() {
     const fetchData = async () => {
       try {
         const [annRes, evtRes] = await Promise.all([
-          fetch("http://localhost:4000/api/announcements", { headers: { Authorization: `Bearer ${token}` } }),
-          fetch("http://localhost:4000/api/events", { headers: { Authorization: `Bearer ${token}` } })
+          fetch(`${API_URL}/announcements`, { headers: { Authorization: `Bearer ${token}` } }),
+          fetch(`${API_URL}/events`, { headers: { Authorization: `Bearer ${token}` } })
         ]);
 
         const [annData, evtData] = await Promise.all([annRes.json(), evtRes.json()]);

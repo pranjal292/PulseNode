@@ -12,7 +12,7 @@ import {
 } from "react";
 import type { User, UserTag } from "../types";
 
-const API_URL = "http://localhost:4000/api";
+import { API_URL } from "../config";
 const TOKEN_KEY = "pulsenode_token";
 
 interface AuthState {
