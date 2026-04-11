@@ -8,6 +8,7 @@
 import "dotenv/config";
 import express from "express";
 import http from "http";
+import path from "path";
 import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
@@ -27,8 +28,8 @@ initSocket(server);
 
 // ── Global Middleware ────────────────────────────────────────
 
-app.use(helmet());
-app.use(cors({ origin: process.env.CORS_ORIGIN, credentials: true }));
+app.use(helmet({ contentSecurityPolicy: false }));
+app.use(cors({ origin: process.env.CORS_ORIGIN || "*", credentials: true }));
 app.use(morgan("dev"));
 app.use(express.json({ limit: "1mb" }));
 
@@ -48,6 +49,16 @@ app.use("/api/auth", authRouter);
 app.use("/api/announcements", announcementsRouter);
 app.use("/api/events", eventsRouter);
 app.use("/api", tagRouter);
+
+// ── Serve React Frontend (production) ────────────────────────
+
+const clientDist = path.join(__dirname, "..", "client", "dist");
+app.use(express.static(clientDist));
+
+// SPA catch-all: any non-API route returns index.html
+app.get("*", (_req, res) => {
+  res.sendFile(path.join(clientDist, "index.html"));
+});
 
 // ── Error Handler (must be last) ─────────────────────────────
 
