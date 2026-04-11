@@ -50,19 +50,23 @@ app.use("/api/announcements", announcementsRouter);
 app.use("/api/events", eventsRouter);
 app.use("/api", tagRouter);
 
+// ── Error Handler (for API routes) ───────────────────────────
+
+app.use(errorHandler);
+
 // ── Serve React Frontend (production) ────────────────────────
 
 const clientDist = path.join(__dirname, "..", "client", "dist");
 app.use(express.static(clientDist));
 
 // SPA catch-all: any non-API route returns index.html
-app.get("*", (_req, res) => {
+app.get("*", (req, res) => {
+  // Never intercept API routes
+  if (req.path.startsWith("/api")) {
+    return res.status(404).json({ success: false, error: "API route not found" });
+  }
   res.sendFile(path.join(clientDist, "index.html"));
 });
-
-// ── Error Handler (must be last) ─────────────────────────────
-
-app.use(errorHandler);
 
 // ── Start ────────────────────────────────────────────────────
 
